@@ -1,1 +1,64 @@
-<p>memorials works!</p>
+<div class="subscription-list">
+    <h3 class="title">Memorial List</h3>
+
+    <div class="filter-bar">
+        <div class="filter-item">
+            <i class="bi bi-funnel"></i>
+            <span>Filter By</span>
+        </div>
+
+        <div class="filter-item">
+            <select [(ngModel)]="selectedLocation">
+                <option value="">Location</option>
+                <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
+            </select>
+        </div>
+
+        <div class="filter-item">
+            <select [(ngModel)]="selectedCustomer">
+                <option value="">Customer</option>
+                <option *ngFor="let customer of customers" [value]="customer.name">
+                    {{ customer.name }}
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-item">
+            <select [(ngModel)]="selectedServiceType">
+                <option value="">Service Type</option>
+                <option *ngFor="let type of serviceTypes" [value]="type">{{ type }}</option>
+            </select>
+        </div>
+
+        <div class="filter-item">
+            <input class="form-control datepicker-input" placeholder="Select Date" name="selectedDate" ngbDatepicker
+                #d="ngbDatepicker" readonly (click)="d.toggle()" [(ngModel)]="selectedDate" />
+            <i class="bi bi-calendar" (click)="d.toggle()"></i>
+        </div>
+
+        <div class="filter-item reset" (click)="resetFilters()">
+            <i class="bi bi-arrow-counterclockwise"></i>
+            <span>Reset Filter</span>
+        </div>
+    </div>
+
+    <div *ngIf="filteredCustomers().length === 0" class="no-results">
+        No accounts match your filters.
+    </div>
+
+    <div class="subscription-card" *ngFor="let customer of filteredCustomers()">
+        <div class="customer-info">
+            <strong>{{ customer.name }}</strong>
+            <small>{{ customer.email }}</small>
+        </div>
+        <div class="service-type">
+            {{ customer.service }}
+        </div>
+        <div class="service-date">
+            Next Service: {{ customer.nextServiceDate | date: 'dd/MM/yyyy' }}
+        </div>
+        <div class="view-btn">
+            <button>View Details</button>
+        </div>
+    </div>
+</div>
