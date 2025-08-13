@@ -1,0 +1,42 @@
+<div class="header-layout">
+    <!-- Sidebar -->
+    <nav class="sidebar" [class.open]="isSidebarOpen">
+        <div class="logo">
+            <img src="assets/logo.png" alt="Logo" />
+        </div>
+        <ul class="menu">
+            <li routerLink="/dashboard" routerLinkActive="active">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </li>
+            <li routerLink="/accounts" routerLinkActive="active">
+                <i class="bi bi-person-lines-fill"></i> Accounts
+            </li>
+            <li routerLink="/memorials" routerLinkActive="active">
+                <i class="bi bi-people-fill"></i> Memorials
+            </li>
+            <li routerLink="/flowers" routerLinkActive="active">
+                <i class="bi bi-flower1"></i> Flowers
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Section -->
+    <div class="main">
+        <!-- Top Navbar -->
+        <header class="topbar">
+            <div class="d-flex align-items-center">
+                <!-- Hamburger for mobile -->
+                <i class="bi bi-list toggle-btn d-md-none" (click)="toggleSidebar()"></i>
+                <div class="page-title">{{ pageTitle }}</div>
+            </div>
+            <div class="profile-icon">
+                <i class="bi bi-person-circle"></i>
+            </div>
+        </header>
+
+        <!-- Project main content -->
+        <main class="router-container p-4">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>
