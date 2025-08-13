@@ -29,11 +29,16 @@
                 <i class="bi bi-list toggle-btn d-md-none" (click)="toggleSidebar()"></i>
                 <div class="page-title">{{ pageTitle }}</div>
             </div>
-            <div class="profile-icon">
+
+            <div class="profile-container" (click)="toggleProfileMenu()" tabindex="0" (blur)="closeProfileMenu()">
                 <i class="bi bi-person-circle"></i>
+
+                <ul class="profile-menu" *ngIf="isProfileMenuOpen">
+                    <li (click)="goToProfile()">Profile</li>
+                    <li (click)="logout()">Logout</li>
+                </ul>
             </div>
         </header>
-
         <main class="router-container p-4">
             <router-outlet></router-outlet>
         </main>
