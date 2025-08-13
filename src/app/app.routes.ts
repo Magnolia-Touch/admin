@@ -21,7 +21,7 @@ export const routes: Routes = [
             { path: 'account/:id', component: AccountsDetailComponent },
             { path: 'memorials', component: MemorialsComponent },
             { path: 'memorial/:id', component: MemorialDetailComponent },
-            { path: 'flower', component: FlowerComponent },
+            { path: 'flowers', component: FlowerComponent },
             { path: 'profile', component: ProfileComponent }
         ]
     }
