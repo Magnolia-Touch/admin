@@ -31,13 +31,19 @@
         </div>
 
         <div class="filter-item">
-            <input type="date" [(ngModel)]="selectedDate" />
+            <input class="form-control datepicker-input" placeholder="Select Date" name="selectedDate" ngbDatepicker
+                #d="ngbDatepicker" readonly (click)="d.toggle()" [(ngModel)]="selectedDate" />
+            <i class="bi bi-calendar" (click)="d.toggle()"></i>
         </div>
 
         <div class="filter-item reset" (click)="resetFilters()">
             <i class="bi bi-arrow-counterclockwise"></i>
             <span>Reset Filter</span>
         </div>
+    </div>
+
+    <div *ngIf="filteredCustomers().length === 0" class="no-results">
+        No accounts match your filters.
     </div>
 
     <div class="subscription-card" *ngFor="let customer of filteredCustomers()">

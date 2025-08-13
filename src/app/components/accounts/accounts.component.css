@@ -1,7 +1,8 @@
 .subscription-list {
     padding: 1rem;
     background: #f8f9fc;
-    margin: auto;
+    width: 100%;
+    min-height: 90vh;
 }
 
 .title {
@@ -74,6 +75,22 @@
     font-size: 12px;
 }
 
+.datepicker-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    padding-right: 5px;
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.datepicker-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .subscription-card {
     display: flex;
     align-items: center;
@@ -128,6 +145,14 @@
 .view-btn button:hover {
     background: #b0c4de;
     color: white;
+}
+
+.no-results {
+    text-align: center;
+    color: #777;
+    padding: 1rem;
+    font-size: 14px;
+    font-style: italic;
 }
 
 @media (max-width: 992px) {

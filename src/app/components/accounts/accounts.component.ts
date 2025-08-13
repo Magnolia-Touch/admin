@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-accounts',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbDatepickerModule],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.css'
 })
@@ -15,7 +16,7 @@ export class AccountsComponent {
   selectedLocation = '';
   selectedCustomer = '';
   selectedServiceType = '';
-  selectedDate: string | null = null;
+  selectedDate: NgbDateStruct | null = null;
 
   customers = [
     {
@@ -60,7 +61,7 @@ export class AccountsComponent {
     }
   ];
 
-    selectLocation(location: string) {
+  selectLocation(location: string) {
     this.selectedLocation = location;
   }
 
@@ -73,12 +74,22 @@ export class AccountsComponent {
   }
 
   filteredCustomers() {
-    return this.customers.filter(c =>
-      (!this.selectedLocation || c.location === this.selectedLocation) &&
-      (!this.selectedCustomer || c.name === this.selectedCustomer) &&
-      (!this.selectedServiceType || c.service === this.selectedServiceType) &&
-      (!this.selectedDate || c.nextServiceDate === this.selectedDate)
-    );
+    return this.customers.filter(c => {
+      const matchesLocation = !this.selectedLocation || c.location === this.selectedLocation;
+      const matchesCustomer = !this.selectedCustomer || c.name === this.selectedCustomer;
+      const matchesServiceType = !this.selectedServiceType || c.service === this.selectedServiceType;
+
+      let matchesDate = true;
+      if (this.selectedDate) {
+        const serviceDate = new Date(c.nextServiceDate);
+        matchesDate =
+          serviceDate.getFullYear() === this.selectedDate.year &&
+          serviceDate.getMonth() + 1 === this.selectedDate.month &&
+          serviceDate.getDate() === this.selectedDate.day;
+      }
+
+      return matchesLocation && matchesCustomer && matchesServiceType && matchesDate;
+    });
   }
 
   resetFilters() {
