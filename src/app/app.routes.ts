@@ -8,6 +8,7 @@ import { MemorialDetailComponent } from './components/memorial-detail/memorial-d
 import { FlowerComponent } from './components/flower/flower.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LayoutComponent } from './layout/layout.component';
+import { authGuard } from './core/guard/auth.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -15,6 +16,7 @@ export const routes: Routes = [
     {
         path: '',
         component: LayoutComponent,
+        canActivate: [authGuard],
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'accounts', component: AccountsComponent },

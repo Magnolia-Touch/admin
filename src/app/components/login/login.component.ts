@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../core/interceptor/auth.service';
+import { AlertService } from '../../shared/alert/service/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +18,10 @@ export class LoginComponent {
   loginForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private alertService: AlertService,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -23,26 +29,25 @@ export class LoginComponent {
     });
   }
 
-    onLogin() {
+  onLogin() {
     if (this.loginForm.valid) {
-      // const identifier = this.loginForm.value.email
-      // const password = this.loginForm.value.password
+      const identifier = this.loginForm.value.email
+      const password = this.loginForm.value.password
 
-      // this.authService.login(identifier, password).subscribe({
-      //   next: (response: any) => {
-      //     console.log('Login successful:', response);
-      //     this.alertService.showAlert({
-      //       message: 'Login Successfull',
-      //       type: 'success',
-      //       autoDismiss: true,
-      //       duration: 4000
-      //     });
-      //     this.router.navigate(['/home']);
-      //   },
-      //   error: (error: any) => {
-      //     console.error('Login failed:', error);
-      //   }
-      // });
+      this.authService.login(identifier, password).subscribe({
+        next: (response: any) => {
+          this.alertService.showAlert({
+            message: response.message,
+            type: 'success',
+            autoDismiss: true,
+            duration: 4000
+          });
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error: any) => {
+          console.error('Login failed:', error);
+        }
+      });
     }
   }
 }
