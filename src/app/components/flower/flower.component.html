@@ -1,6 +1,11 @@
 <div class="flower-list">
-    <!-- Header -->
-    <h3 class="title">Flowers</h3>
+    <!-- Header + Add Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="title">Flowers</h3>
+        <button class="btn text-white add-btn" (click)="openAddModal(addFlowerModal)">
+            + Add Flower
+        </button>
+    </div>
 
     <!-- Filter Bar -->
     <div class="filter-bar">
@@ -9,7 +14,6 @@
             <input type="text" class="form-control search-input" placeholder="Search by name..."
                 [(ngModel)]="searchTerm" (input)="filterFlowers()">
         </div>
-
         <div class="filter-item">
             <select [(ngModel)]="stockFilter" (change)="filterFlowers()">
                 <option value="">All Stock</option>
@@ -17,7 +21,6 @@
                 <option value="false">Out of Stock</option>
             </select>
         </div>
-
         <div class="filter-item reset" (click)="resetFilters()">
             <i class="bi bi-arrow-counterclockwise"></i>
             <span>Reset Filter</span>
@@ -38,14 +41,14 @@
 
     <!-- Flower Grid -->
     <div class="row g-4">
-        <div class="col-md-4" *ngFor="let flower of filteredFlowers">
+        <div class="col-md-3 col-sm-6" *ngFor="let flower of filteredFlowers">
             <div class="card flower-card h-100 shadow-sm">
                 <img [src]="flower.image" class="card-img-top" alt="{{flower.Name}}">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{flower.Name}}</h5>
                     <p class="card-text">{{flower.Description}}</p>
-                    <p class="fw-bold">${{flower.Price}}</p>
-                    <span class="badge" [ngClass]="flower.in_stock ? 'bg-success' : 'bg-danger'">
+                    <p class="fw-bold mt-auto">${{flower.Price}}</p>
+                    <span class="badge mt-2" [ngClass]="flower.in_stock ? 'bg-success' : 'bg-danger'">
                         {{flower.in_stock ? 'In Stock' : 'Out of Stock'}}
                     </span>
                 </div>
@@ -53,16 +56,9 @@
         </div>
     </div>
 
-    <!-- Add Flower Button -->
-    <div class="text-end mt-4">
-        <button class="btn text-white" style="background-color:#BDA577;" (click)="openAddModal(addFlowerModal)">
-            + Add Flower
-        </button>
-    </div>
-
     <!-- Add Flower Modal -->
     <ng-template #addFlowerModal let-modal>
-        <div class="modal-header" style="background-color:#BDA577; color:white;">
+        <div class="modal-header modal-header-custom">
             <h5 class="modal-title">Add Flower</h5>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
         </div>
@@ -92,8 +88,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
-            <button class="btn text-white" style="background-color:#BDA577;" [disabled]="submitting"
-                (click)="submitFlower(modal)">
+            <button class="btn text-white add-btn" [disabled]="submitting" (click)="submitFlower(modal)">
                 <span *ngIf="submitting" class="spinner-border spinner-border-sm"></span>
                 Save
             </button>

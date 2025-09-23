@@ -1,26 +1,39 @@
 .flower-list {
-    padding: 1rem;
+    padding: 2rem;
     background: #f8f9fc;
     min-height: 90vh;
 }
 
+/* Header + Add Button */
 .title {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: 700;
     color: #2c2c2c;
+    margin: 0;
 }
 
+.add-btn {
+    background-color: #BDA577;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    color: #fff;
+    transition: background 0.2s;
+}
+
+.add-btn:hover {
+    background-color: #a78d5b;
+}
+
+/* Filter Bar */
 .filter-bar {
-    display: inline-flex;
+    display: flex;
     flex-wrap: wrap;
     background: #fff;
     border-radius: 8px;
-    overflow: hidden;
     border: 1px solid #e0e0e0;
     margin-bottom: 2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-    max-width: 100%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .filter-item {
@@ -30,7 +43,6 @@
     padding: 10px 16px;
     font-size: 14px;
     color: #333;
-    white-space: nowrap;
     border-right: 1px solid #e0e0e0;
     background: #fff;
     flex-shrink: 0;
@@ -44,6 +56,7 @@
     border: none;
     outline: none;
     box-shadow: none;
+    min-width: 150px;
 }
 
 .filter-item.reset {
@@ -57,6 +70,7 @@
     background: rgba(230, 57, 70, 0.1);
 }
 
+/* No Results */
 .no-results {
     text-align: center;
     color: #777;
@@ -65,11 +79,63 @@
     font-style: italic;
 }
 
+/* Flower Cards */
+.card.flower-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card.flower-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
 .card.flower-card img {
-    height: 200px;
+    height: 180px;
     object-fit: cover;
 }
 
 .card-title {
     color: #BDA577;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #555;
+    flex-grow: 1;
+}
+
+.badge {
+    font-size: 12px;
+    padding: 0.35em 0.65em;
+}
+
+/* Modal header */
+.modal-header-custom {
+    background-color: #BDA577;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .filter-bar {
+        flex-direction: column;
+    }
+
+    .filter-item {
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        width: 100%;
+    }
+
+    .filter-item:last-child {
+        border-bottom: none;
+    }
+
+    .row.g-4>.col-sm-6 {
+        margin-bottom: 1rem;
+    }
 }
