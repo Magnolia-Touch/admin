@@ -3,27 +3,28 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="title">Flowers</h3>
         <button class="btn text-white add-btn" (click)="openAddModal(addFlowerModal)">
-            + Add Flower
+            <i class="bi bi-plus-lg"></i> Add Flower
         </button>
     </div>
 
     <!-- Filter Bar -->
     <div class="filter-bar">
+        <div class="filter-item" [class.selected]="stockFilter === ''" (click)="setStockFilter('')">
+            <i class="bi bi-list"></i> All Stock
+        </div>
+        <div class="filter-item" [class.selected]="stockFilter === 'true'" (click)="setStockFilter('true')">
+            <i class="bi bi-check-circle"></i> In Stock
+        </div>
+        <div class="filter-item" [class.selected]="stockFilter === 'false'" (click)="setStockFilter('false')">
+            <i class="bi bi-x-circle"></i> Out of Stock
+        </div>
+        <div class="filter-item reset" (click)="resetFilters()">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
+        </div>
         <div class="filter-item">
             <i class="bi bi-search"></i>
             <input type="text" class="form-control search-input" placeholder="Search by name..."
                 [(ngModel)]="searchTerm" (input)="filterFlowers()">
-        </div>
-        <div class="filter-item">
-            <select [(ngModel)]="stockFilter" (change)="filterFlowers()">
-                <option value="">All Stock</option>
-                <option value="true">In Stock</option>
-                <option value="false">Out of Stock</option>
-            </select>
-        </div>
-        <div class="filter-item reset" (click)="resetFilters()">
-            <i class="bi bi-arrow-counterclockwise"></i>
-            <span>Reset Filter</span>
         </div>
     </div>
 
@@ -51,15 +52,20 @@
                     <span class="badge mt-2" [ngClass]="flower.in_stock ? 'bg-success' : 'bg-danger'">
                         {{flower.in_stock ? 'In Stock' : 'Out of Stock'}}
                     </span>
+                    <div class="card-actions">
+                        <button class="btn btn-sm btn-outline-primary" (click)="editFlower(flower, addFlowerModal)">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Add Flower Modal -->
+    <!-- Add/Edit Flower Modal -->
     <ng-template #addFlowerModal let-modal>
         <div class="modal-header modal-header-custom">
-            <h5 class="modal-title">Add Flower</h5>
+            <h5 class="modal-title">{{editingFlower ? 'Edit Flower' : 'Add Flower'}}</h5>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
         </div>
         <div class="modal-body">

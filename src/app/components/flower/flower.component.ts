@@ -20,6 +20,7 @@ export class FlowerComponent implements OnInit {
   loading: boolean = false;
   addFlowerForm!: FormGroup;
   submitting: boolean = false;
+  editingFlower: any = null;
 
   constructor(
     private service: FlowersService,
@@ -62,6 +63,11 @@ export class FlowerComponent implements OnInit {
     });
   }
 
+  setStockFilter(value: string) {
+    this.stockFilter = value;
+    this.filterFlowers();
+  }
+
   resetFilters() {
     this.searchTerm = '';
     this.stockFilter = '';
@@ -70,6 +76,18 @@ export class FlowerComponent implements OnInit {
 
   openAddModal(content: TemplateRef<any>) {
     this.addFlowerForm.reset({ in_stock: true });
+    this.modalService.open(content, { size: 'lg', centered: true });
+  }
+
+  editFlower(flower: any, content: TemplateRef<any>) {
+    this.editingFlower = flower;
+    this.addFlowerForm.patchValue({
+      Name: flower.Name,
+      Description: flower.Description,
+      Price: flower.Price,
+      in_stock: flower.in_stock,
+      image: null
+    });
     this.modalService.open(content, { size: 'lg', centered: true });
   }
 
@@ -89,10 +107,15 @@ export class FlowerComponent implements OnInit {
       formData.append(key, value as any);
     });
 
-    this.service.addFlower(formData).subscribe({
+    const request$ = this.editingFlower
+      ? this.service.updateFlowerStock(formData, this.editingFlower.id)
+      : this.service.addFlower(formData);
+
+    request$.subscribe({
       next: () => {
         this.submitting = false;
         modalRef.close();
+        this.editingFlower = null;
         this.loadFlowers();
       },
       error: (err) => {
