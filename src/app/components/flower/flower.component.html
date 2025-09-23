@@ -18,13 +18,13 @@
         <div class="filter-item" [class.selected]="stockFilter === 'false'" (click)="setStockFilter('false')">
             <i class="bi bi-x-circle"></i> Out of Stock
         </div>
-        <div class="filter-item reset" (click)="resetFilters()">
-            <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
-        </div>
         <div class="filter-item">
             <i class="bi bi-search"></i>
             <input type="text" class="form-control search-input" placeholder="Search by name..."
                 [(ngModel)]="searchTerm" (input)="filterFlowers()">
+        </div>
+        <div class="filter-item reset" (click)="resetFilters()">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
         </div>
     </div>
 
@@ -53,7 +53,7 @@
                         {{flower.in_stock ? 'In Stock' : 'Out of Stock'}}
                     </span>
                     <div class="card-actions">
-                        <button class="btn btn-sm btn-outline-primary" (click)="editFlower(flower, addFlowerModal)">
+                        <button class="btn btn-custom btn-sm" (click)="editFlower(flower, addFlowerModal)">
                             <i class="bi bi-pencil-square"></i> Edit
                         </button>
                     </div>

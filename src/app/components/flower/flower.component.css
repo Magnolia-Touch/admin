@@ -117,6 +117,21 @@
     padding: 0.35em 0.65em;
 }
 
+/* Button Styles */
+.btn-custom {
+    background-color: #BDA577;
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.35rem 0.75rem;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-custom:hover {
+    background-color: #a78d5b;
+}
+
 /* Card Action Buttons */
 .card-actions {
     display: flex;
