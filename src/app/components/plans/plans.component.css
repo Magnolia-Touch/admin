@@ -1,0 +1,127 @@
+.subscription-list {
+    padding: 1rem;
+    background: #f8f9fc;
+    width: 100%;
+    min-height: 90vh;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2c2c2c;
+}
+
+.add-btn {
+    background-color: #BDA577;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #a78d5b;
+    transform: translateY(-2px);
+}
+
+.subscription-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.subscription-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.customer-info {
+    flex: 1;
+    min-width: 150px;
+}
+
+.customer-info strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.customer-info small {
+    font-size: 12px;
+    color: gray;
+}
+
+.service-type,
+.service-date {
+    font-size: 14px;
+    color: #555;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+}
+
+.view-btn button {
+    background: #f8f9fc;
+    border: 1px solid #b0c4de;
+    border-radius: 12px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.view-btn button:hover {
+    background: #b0c4de;
+    color: white;
+}
+
+.no-results {
+    text-align: center;
+    color: #777;
+    padding: 1rem;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.modal-header {
+    background-color: #BDA577;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .subscription-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .service-type,
+    .service-date {
+        text-align: left;
+    }
+
+    .view-btn {
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 18px;
+    }
+
+    .view-btn button {
+        padding: 4px 10px;
+        font-size: 13px;
+    }
+}

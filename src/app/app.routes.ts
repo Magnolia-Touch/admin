@@ -9,6 +9,7 @@ import { FlowerComponent } from './components/flower/flower.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LayoutComponent } from './layout/layout.component';
 import { authGuard } from './core/guard/auth.guard';
+import { PlansComponent } from './components/plans/plans.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -24,7 +25,8 @@ export const routes: Routes = [
             { path: 'memorials', component: MemorialsComponent },
             { path: 'memorial/:id', component: MemorialDetailComponent },
             { path: 'flowers', component: FlowerComponent },
-            { path: 'profile', component: ProfileComponent }
+            { path: 'profile', component: ProfileComponent },
+            { path: 'plans', component: PlansComponent }
         ]
     }
 ];

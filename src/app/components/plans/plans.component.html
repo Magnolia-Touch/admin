@@ -1,0 +1,71 @@
+<div class="subscription-list">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="title">Subscription Plans</h3>
+        <button class="btn text-white add-btn" (click)="openAddModal(addPlanModal)"><i class="bi bi-plus-lg"></i> Add
+            Plan</button>
+    </div>
+
+    <!-- Loader -->
+    <div *ngIf="loading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p>Loading plans...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && plans.length === 0" class="no-results">
+        No plans available.
+    </div>
+
+    <!-- Plans List -->
+    <div *ngFor="let plan of plans" class="subscription-card">
+        <div class="customer-info">
+            <strong>{{ plan.Subscription_name }}</strong>
+            <small>{{ plan.discription }}</small>
+        </div>
+        <div class="service-type">
+            Frequency: {{ plan.Frequency }}
+        </div>
+        <div class="service-date">
+            Price: ${{ plan.Price }}
+        </div>
+        <div class="view-btn">
+            <button>View Details</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Plan Modal -->
+<ng-template #addPlanModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Add New Plan</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Plan Name</label>
+                <input type="text" class="form-control" [(ngModel)]="newPlan.Subscription_name"
+                    name="Subscription_name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" [(ngModel)]="newPlan.discription" name="discription"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Frequency</label>
+                <input type="number" class="form-control" [(ngModel)]="newPlan.Frequency" name="Frequency" min="1">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input type="text" class="form-control" [(ngModel)]="newPlan.Price" name="Price">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button class="btn text-white add-btn" [disabled]="submitting" (click)="savePlan()">
+            <span *ngIf="submitting" class="spinner-border spinner-border-sm"></span>
+            Save
+        </button>
+    </div>
+</ng-template>
