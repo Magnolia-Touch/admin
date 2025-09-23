@@ -24,4 +24,12 @@ export class FlowersService {
   updateFlowerStock(itm: any, id: string) {
     return this.http.patch(`${this.BaseUrl}/update-flower-stock?id=${id}`, itm)
   }
+
+  deleteFlower(id: string) {
+    return this.http.delete(`${this.BaseUrl}/${id}`)
+  }
+
+  updateFlower(id: string, itm: any) {
+    return this.http.put(`${this.BaseUrl}/${id}`, itm)
+  }
 }

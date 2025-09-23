@@ -3,6 +3,8 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FlowersService } from './service/flowers.service';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationService } from '../../shared/confirmation-modal/service/confirmation.service';
+import { AlertService } from '../../shared/alert/service/alert.service';
 
 @Component({
   selector: 'app-flower',
@@ -25,7 +27,9 @@ export class FlowerComponent implements OnInit {
   constructor(
     private service: FlowersService,
     private modalService: NgbModal,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private confirmationService: ConfirmationService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +40,7 @@ export class FlowerComponent implements OnInit {
       Description: ['', Validators.required],
       Price: ['', Validators.required],
       in_stock: [true],
-      image: [null, Validators.required]
+      image: [null]
     });
   }
 
@@ -75,6 +79,9 @@ export class FlowerComponent implements OnInit {
   }
 
   openAddModal(content: TemplateRef<any>) {
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur();
+
     this.addFlowerForm.reset({ in_stock: true });
     this.modalService.open(content, { size: 'lg', centered: true });
   }
@@ -88,6 +95,10 @@ export class FlowerComponent implements OnInit {
       in_stock: flower.in_stock,
       image: null
     });
+
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur();
+
     this.modalService.open(content, { size: 'lg', centered: true });
   }
 
@@ -108,11 +119,18 @@ export class FlowerComponent implements OnInit {
     });
 
     const request$ = this.editingFlower
-      ? this.service.updateFlowerStock(formData, this.editingFlower.id)
+      ? this.service.updateFlower(this.editingFlower.flower_id, formData)
       : this.service.addFlower(formData);
 
     request$.subscribe({
-      next: () => {
+      next: (res: any) => {
+        console.log(res);
+        this.alertService.showAlert({
+          message: 'Flower Updated',
+          type: 'success',
+          autoDismiss: true,
+          duration: 4000
+        });
         this.submitting = false;
         modalRef.close();
         this.editingFlower = null;
@@ -120,8 +138,48 @@ export class FlowerComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
+        this.alertService.showAlert({
+          message: err.error.message || 'Updation failed. Try again.',
+          type: 'error',
+          autoDismiss: true,
+          duration: 4000
+        });
         this.submitting = false;
       }
     });
   }
+
+  deleteFlower(flower: any) {
+    this.confirmationService.confirm({
+      title: 'Delete Flower',
+      message: `Do you really want to delete "${flower.Name}"?`,
+      confirmText: 'Delete',
+      cancelText: 'Cancel'
+    }).then((confirmed) => {
+      if (!confirmed) return;
+
+      this.service.deleteFlower(flower.flower_id).subscribe({
+        next: () => {
+          this.alertService.showAlert({
+            message: 'Flower Deleted',
+            type: 'success',
+            autoDismiss: true,
+            duration: 4000
+          });
+          this.filteredFlowers = this.filteredFlowers.filter(f => f.id !== flower.id);
+          this.flowers = this.flowers.filter(f => f.id !== flower.id);
+        },
+        error: (err) => {
+          console.error(err)
+          this.alertService.showAlert({
+            message: err.error.message || 'Deletion failed. Try again.',
+            type: 'error',
+            autoDismiss: true,
+            duration: 4000
+          });
+        }
+      });
+    });
+  }
+
 }
