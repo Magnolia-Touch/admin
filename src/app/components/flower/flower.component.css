@@ -2,40 +2,45 @@
     padding: 2rem;
     background: #f8f9fc;
     min-height: 90vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Header + Add Button */
+/* Header */
 .title {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
     color: #2c2c2c;
     margin: 0;
+    letter-spacing: 0.5px;
 }
 
 .add-btn {
     background-color: #BDA577;
-    border-radius: 6px;
-    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
     font-weight: 600;
     color: #fff;
-    transition: background 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
 }
 
 .add-btn:hover {
     background-color: #a78d5b;
+    transform: translateY(-2px);
 }
 
 /* Filter Bar */
 .filter-bar {
     display: flex;
     flex-wrap: wrap;
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     width: fit-content;
-    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+    margin-bottom: 2rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    padding: 6px 10px;
+    gap: 6px;
 }
 
 .filter-item {
@@ -44,65 +49,79 @@
     gap: 6px;
     padding: 8px 14px;
     font-size: 14px;
-    color: #333;
+    color: #444;
     border-radius: 6px;
     cursor: pointer;
     flex-shrink: 0;
-    transition: background 0.2s;
+    transition: background 0.25s, color 0.25s;
+}
+
+.filter-item:hover {
+    background: rgba(189, 165, 119, 0.1);
 }
 
 .filter-item.selected {
     background-color: #BDA577;
-    color: white;
+    color: #fff;
+    font-weight: 600;
 }
 
-.filter-item input,
-.filter-item select {
+.filter-item input {
     border: none;
     outline: none;
     background: transparent;
     color: inherit;
+    font-size: 14px;
 }
 
 .filter-item.reset {
     color: #e63946;
-    border-radius: 6px;
-    transition: background 0.2s;
+    font-weight: 500;
 }
 
 .filter-item.reset:hover {
-    background: rgba(230, 57, 70, 0.1);
+    background: rgba(230, 57, 70, 0.12);
+    color: #c71c2c;
 }
 
 /* No Results */
 .no-results {
     text-align: center;
-    color: #777;
+    color: #888;
     padding: 1rem;
-    font-size: 14px;
+    font-size: 15px;
     font-style: italic;
 }
 
 /* Flower Cards */
 .card.flower-card {
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.25s, box-shadow 0.25s;
+    border: none;
 }
 
 .card.flower-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
 .card.flower-card img {
-    height: 180px;
+    height: 200px;
     object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
 }
 
 .card-title {
     color: #BDA577;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 18px;
     margin-bottom: 0.5rem;
 }
 
@@ -110,39 +129,62 @@
     font-size: 14px;
     color: #555;
     flex-grow: 1;
+    margin-bottom: 0.5rem;
+}
+
+.fw-bold {
+    font-size: 15px;
+    color: #222;
 }
 
 .badge {
     font-size: 12px;
-    padding: 0.35em 0.65em;
+    padding: 0.4em 0.7em;
+    border-radius: 6px;
+    font-weight: 500;
 }
 
-/* Button Styles */
+/* Action Buttons */
 .btn-custom {
     background-color: #BDA577;
     color: #fff;
     border-radius: 6px;
-    padding: 0.35rem 0.75rem;
-    font-size: 14px;
+    padding: 0.4rem 0.9rem;
+    font-size: 13px;
     font-weight: 600;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
 .btn-custom:hover {
     background-color: #a78d5b;
+    transform: scale(1.05);
+}
+
+.btn-danger {
+    font-size: 13px;
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    transform: scale(1.05);
 }
 
 /* Card Action Buttons */
 .card-actions {
     display: flex;
-    gap: 8px;
-    margin-top: 8px;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-/* Modal header */
+/* Modal */
 .modal-header-custom {
     background-color: #BDA577;
     color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 /* Responsive */
@@ -150,6 +192,7 @@
     .filter-bar {
         flex-direction: column;
         width: 100%;
+        gap: 4px;
     }
 
     .filter-item {
@@ -158,5 +201,9 @@
 
     .row.g-4>.col-sm-6 {
         margin-bottom: 1rem;
+    }
+
+    .card.flower-card img {
+        height: 160px;
     }
 }
