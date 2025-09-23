@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { AccountsService } from './service/accounts.service';
 
 @Component({
   selector: 'app-accounts',
@@ -9,7 +10,7 @@ import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.css'
 })
-export class AccountsComponent {
+export class AccountsComponent implements OnInit {
   locations = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'];
   serviceTypes = ['Cemetery Cleaning', 'Memorial'];
 
@@ -17,6 +18,8 @@ export class AccountsComponent {
   selectedCustomer = '';
   selectedServiceType = '';
   selectedDate: NgbDateStruct | null = null;
+
+  allAccounts!: any[];
 
   customers = [
     {
@@ -60,6 +63,25 @@ export class AccountsComponent {
       nextServiceDate: "2025-09-15"
     }
   ];
+
+  constructor(
+    private service: AccountsService
+  ) { }
+
+  ngOnInit(): void {
+    this.loadAccounts()
+  }
+
+  loadAccounts() {
+    this.service.getAllUsers(1, 12).subscribe({
+      next: (res: any) => {
+        console.log(res);
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
+  }
 
   selectLocation(location: string) {
     this.selectedLocation = location;

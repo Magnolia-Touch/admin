@@ -1,0 +1,75 @@
+.flower-list {
+    padding: 1rem;
+    background: #f8f9fc;
+    min-height: 90vh;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2c2c2c;
+}
+
+.filter-bar {
+    display: inline-flex;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+    max-width: 100%;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    border-right: 1px solid #e0e0e0;
+    background: #fff;
+    flex-shrink: 0;
+}
+
+.filter-item:last-child {
+    border-right: none;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.filter-item.reset {
+    color: #e63946;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.filter-item.reset:hover {
+    background: rgba(230, 57, 70, 0.1);
+}
+
+.no-results {
+    text-align: center;
+    color: #777;
+    padding: 1rem;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.card.flower-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-title {
+    color: #BDA577;
+}

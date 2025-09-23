@@ -1,1 +1,102 @@
-<p>flower works!</p>
+<div class="flower-list">
+    <!-- Header -->
+    <h3 class="title">Flowers</h3>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-item">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control search-input" placeholder="Search by name..."
+                [(ngModel)]="searchTerm" (input)="filterFlowers()">
+        </div>
+
+        <div class="filter-item">
+            <select [(ngModel)]="stockFilter" (change)="filterFlowers()">
+                <option value="">All Stock</option>
+                <option value="true">In Stock</option>
+                <option value="false">Out of Stock</option>
+            </select>
+        </div>
+
+        <div class="filter-item reset" (click)="resetFilters()">
+            <i class="bi bi-arrow-counterclockwise"></i>
+            <span>Reset Filter</span>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div *ngIf="loading" class="text-center my-5">
+        <div class="spinner-border" [style.color]="'#BDA577'" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- No Results -->
+    <div *ngIf="!loading && filteredFlowers.length === 0" class="no-results">
+        No flowers match your filters.
+    </div>
+
+    <!-- Flower Grid -->
+    <div class="row g-4">
+        <div class="col-md-4" *ngFor="let flower of filteredFlowers">
+            <div class="card flower-card h-100 shadow-sm">
+                <img [src]="flower.image" class="card-img-top" alt="{{flower.Name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{flower.Name}}</h5>
+                    <p class="card-text">{{flower.Description}}</p>
+                    <p class="fw-bold">${{flower.Price}}</p>
+                    <span class="badge" [ngClass]="flower.in_stock ? 'bg-success' : 'bg-danger'">
+                        {{flower.in_stock ? 'In Stock' : 'Out of Stock'}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Flower Button -->
+    <div class="text-end mt-4">
+        <button class="btn text-white" style="background-color:#BDA577;" (click)="openAddModal(addFlowerModal)">
+            + Add Flower
+        </button>
+    </div>
+
+    <!-- Add Flower Modal -->
+    <ng-template #addFlowerModal let-modal>
+        <div class="modal-header" style="background-color:#BDA577; color:white;">
+            <h5 class="modal-title">Add Flower</h5>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="addFlowerForm">
+                <div class="mb-3">
+                    <label>Name</label>
+                    <input type="text" class="form-control" formControlName="Name">
+                </div>
+                <div class="mb-3">
+                    <label>Description</label>
+                    <textarea class="form-control" formControlName="Description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Price</label>
+                    <input type="number" class="form-control" formControlName="Price">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" formControlName="in_stock" id="stockCheck">
+                    <label for="stockCheck" class="form-check-label">In Stock</label>
+                </div>
+                <div class="mb-3">
+                    <label>Image</label>
+                    <input type="file" class="form-control" (change)="onFileChange($event)">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+            <button class="btn text-white" style="background-color:#BDA577;" [disabled]="submitting"
+                (click)="submitFlower(modal)">
+                <span *ngIf="submitting" class="spinner-border spinner-border-sm"></span>
+                Save
+            </button>
+        </div>
+    </ng-template>
+</div>

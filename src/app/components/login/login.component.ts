@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  isLogin = true;
+  isLogin = false;
   showLoginPassword = false;
 
   loginForm: FormGroup;
@@ -31,11 +31,13 @@ export class LoginComponent {
 
   onLogin() {
     if (this.loginForm.valid) {
+      this.isLogin = true;
       const identifier = this.loginForm.value.email
       const password = this.loginForm.value.password
 
       this.authService.login(identifier, password).subscribe({
         next: (response: any) => {
+          this.isLogin = false;
           this.alertService.showAlert({
             message: response.message,
             type: 'success',
@@ -45,7 +47,15 @@ export class LoginComponent {
           this.router.navigate(['/dashboard']);
         },
         error: (error: any) => {
+          this.isLogin = false;
           console.error('Login failed:', error);
+          this.alertService.showAlert({
+            message: error.error.message || 'Login failed. Try again.',
+            type: 'error',
+            autoDismiss: true,
+            duration: 4000
+          });
+
         }
       });
     }
