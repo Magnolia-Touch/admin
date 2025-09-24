@@ -18,4 +18,8 @@ export class MemorialService {
     return this.http.get(`${this.OrderUrl}/memorial-orders`, { params })
   }
 
+  getCleaningServices(params: any) {
+    return this.http.get(`${this.bookingUrl}/service-bookings`, { params })
+  }
+
 }

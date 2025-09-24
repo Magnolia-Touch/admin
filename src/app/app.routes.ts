@@ -10,6 +10,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { LayoutComponent } from './layout/layout.component';
 import { authGuard } from './core/guard/auth.guard';
 import { PlansComponent } from './components/plans/plans.component';
+import { CleaningComponent } from './components/cleaning/cleaning.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -26,7 +27,8 @@ export const routes: Routes = [
             { path: 'memorial/:id', component: MemorialDetailComponent },
             { path: 'flowers', component: FlowerComponent },
             { path: 'profile', component: ProfileComponent },
-            { path: 'plans', component: PlansComponent }
+            { path: 'plans', component: PlansComponent },
+            { path: 'cleaning', component: CleaningComponent }
         ]
     }
 ];
