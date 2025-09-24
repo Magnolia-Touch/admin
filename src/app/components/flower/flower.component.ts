@@ -39,6 +39,7 @@ export class FlowerComponent implements OnInit {
       Name: ['', Validators.required],
       Description: ['', Validators.required],
       Price: ['', Validators.required],
+      stock_count: [0, [Validators.required, Validators.min(0)]],
       in_stock: [true],
       image: [null]
     });
@@ -180,6 +181,10 @@ export class FlowerComponent implements OnInit {
         }
       });
     });
+  }
+
+  get f() {
+    return this.addFlowerForm.controls;
   }
 
 }

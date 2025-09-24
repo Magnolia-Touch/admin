@@ -3,36 +3,21 @@
 
     <div class="filter-bar">
         <div class="filter-item">
-            <i class="bi bi-funnel"></i>
-            <span>Filter By</span>
-        </div>
-
-        <div class="filter-item">
-            <select [(ngModel)]="selectedLocation">
-                <option value="">Location</option>
-                <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
+            <select [(ngModel)]="selectedStatus" (change)="loadMemorials()">
+                <option value="">Status</option>
+                <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
             </select>
         </div>
 
         <div class="filter-item">
-            <select [(ngModel)]="selectedCustomer">
-                <option value="">Customer</option>
-                <option *ngFor="let customer of customers" [value]="customer.name">
-                    {{ customer.name }}
-                </option>
-            </select>
+            <input type="text" class="form-control" placeholder="Order Number" [(ngModel)]="orderNumber"
+                (keyup.enter)="loadMemorials()" />
         </div>
 
         <div class="filter-item">
-            <select [(ngModel)]="selectedServiceType">
-                <option value="">Service Type</option>
-                <option *ngFor="let type of serviceTypes" [value]="type">{{ type }}</option>
-            </select>
-        </div>
-
-        <div class="filter-item">
-            <input class="form-control datepicker-input" placeholder="Select Date" name="selectedDate" ngbDatepicker
-                #d="ngbDatepicker" readonly (click)="d.toggle()" [(ngModel)]="selectedDate" />
+            <input class="form-control datepicker-input" placeholder="Created Date" name="selectedDate" ngbDatepicker
+                #d="ngbDatepicker" readonly (click)="d.toggle()" (dateSelect)="loadMemorials()"
+                [(ngModel)]="selectedDate" />
             <i class="bi bi-calendar" (click)="d.toggle()"></i>
         </div>
 
@@ -42,23 +27,50 @@
         </div>
     </div>
 
-    <div *ngIf="filteredCustomers().length === 0" class="no-results">
-        No accounts match your filters.
+    <div *ngIf="orders.length === 0" class="no-results">
+        No orders match your filters.
     </div>
 
-    <div class="subscription-card" *ngFor="let customer of filteredCustomers()">
+    <div class="subscription-card" *ngFor="let order of orders">
         <div class="customer-info">
-            <strong>{{ customer.name }}</strong>
-            <small>{{ customer.email }}</small>
+            <strong>{{ order.orderNumber }}</strong>
+            <small>Status: {{ order.status }}</small>
         </div>
         <div class="service-type">
-            {{ customer.service }}
+            Amount: {{ order.totalAmount }}
         </div>
         <div class="service-date">
-            Next Service: {{ customer.nextServiceDate | date: 'dd/MM/yyyy' }}
+            Created: {{ order.createdAt | date:'dd/MM/yyyy' }}
         </div>
         <div class="view-btn">
-            <button>View Details</button>
+            <button (click)="openDetailModal(orderDetailModal, order)">View Details</button>
         </div>
     </div>
+
+    <nav *ngIf="total > limit" aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-3">
+            <li class="page-item" [class.disabled]="page === 1">
+                <button class="page-link" (click)="pageChange(page - 1)">Previous</button>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ page }}</span>
+            </li>
+            <li class="page-item" [class.disabled]="page * limit >= total">
+                <button class="page-link" (click)="pageChange(page + 1)">Next</button>
+            </li>
+        </ul>
+    </nav>
 </div>
+
+<ng-template #orderDetailModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Order Details - {{ selectedOrder?.orderNumber }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <p><strong>Status:</strong> {{ selectedOrder?.status }}</p>
+        <p><strong>Total Amount:</strong> {{ selectedOrder?.totalAmount }}</p>
+        <p><strong>Notes:</strong> {{ selectedOrder?.notes || 'N/A' }}</p>
+        <p><strong>Created At:</strong> {{ selectedOrder?.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+</ng-template>

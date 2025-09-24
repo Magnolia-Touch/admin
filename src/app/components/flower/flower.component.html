@@ -76,19 +76,42 @@
                 <div class="mb-3">
                     <label>Name</label>
                     <input type="text" class="form-control" formControlName="Name">
+                    <div class="text-danger" *ngIf="f['Name'].touched && f['Name'].invalid">
+                        <small *ngIf="f['Name'].errors?.['required']">Name is required.</small>
+                    </div>
                 </div>
+
                 <div class="mb-3">
                     <label>Description</label>
                     <textarea class="form-control" formControlName="Description"></textarea>
+                    <div class="text-danger" *ngIf="f['Description'].touched && f['Description'].invalid">
+                        <small *ngIf="f['Description'].errors?.['required']">Description is required.</small>
+                    </div>
                 </div>
+
                 <div class="mb-3">
                     <label>Price</label>
                     <input type="number" class="form-control" formControlName="Price">
+                    <div class="text-danger" *ngIf="f['Price'].touched && f['Price'].invalid">
+                        <small *ngIf="f['Price'].errors?.['required']">Price is required.</small>
+                        <small *ngIf="f['Price'].errors?.['min']">Price must be at least 1.</small>
+                    </div>
                 </div>
+
+                <div class="mb-3">
+                    <label>Stock Count</label>
+                    <input type="number" class="form-control" formControlName="stock_count">
+                    <div class="text-danger" *ngIf="f['stock_count'].touched && f['stock_count'].invalid">
+                        <small *ngIf="f['stock_count'].errors?.['required']">Stock count is required.</small>
+                        <small *ngIf="f['stock_count'].errors?.['min']">Stock count cannot be negative.</small>
+                    </div>
+                </div>
+
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" formControlName="in_stock" id="stockCheck">
                     <label for="stockCheck" class="form-check-label">In Stock</label>
                 </div>
+
                 <div class="mb-3">
                     <label>Image</label>
                     <input type="file" class="form-control" (change)="onFileChange($event)">
