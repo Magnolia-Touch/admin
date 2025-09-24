@@ -141,6 +141,59 @@
     font-style: italic;
 }
 
+/* Modal Styling */
+.modal-header {
+    background-color: #f8f9fc;
+    border-bottom: 1px solid #e6e6e6;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c2c2c;
+}
+
+.btn-close {
+    /* background: transparent; */
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 1rem 1.25rem;
+    font-size: 14px;
+    color: #444;
+}
+
+.modal-body p {
+    margin-bottom: 0.75rem;
+}
+
+.modal-body strong {
+    color: #2c2c2c;
+}
+
+.modal-content {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+/* Optional: responsive adjustments */
+@media (max-width: 576px) {
+    .modal-body {
+        font-size: 13px;
+    }
+    .modal-title {
+        font-size: 16px;
+    }
+}
+
 @media (max-width: 992px) {
     .filter-bar {
         display: flex;
