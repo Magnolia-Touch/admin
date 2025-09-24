@@ -2,13 +2,13 @@
     <h3 class="title">Memorial List</h3>
 
     <div class="filter-bar">
-          <div class="filter-item">
-    <i class="bi bi-list"></i>
-    <select [(ngModel)]="selectedStatus" (change)="loadMemorials()">
-      <option value="">All Status</option>
-      <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
-    </select>
-  </div>
+        <div class="filter-item">
+            <i class="bi bi-list"></i>
+            <select [(ngModel)]="selectedStatus" (change)="loadMemorials()">
+                <option value="">All Status</option>
+                <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+            </select>
+        </div>
         <div class="filter-item">
             <i class="bi bi-search"></i>
             <input type="text" class="search-input" placeholder="Search by Order Number" [(ngModel)]="orderNumber"
@@ -25,39 +25,48 @@
         </div>
     </div>
 
-    <div *ngIf="orders.length === 0" class="no-results">
+    <div *ngIf="loading" class="text-center my-3">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && orders.length === 0" class="no-results">
         No orders match your filters.
     </div>
 
-    <div class="subscription-card" *ngFor="let order of orders">
-        <div class="customer-info">
-            <strong>{{ order.orderNumber }}</strong>
-            <small>Status: {{ order.status }}</small>
+    <div *ngIf="!loading">
+        <div class="subscription-card" *ngFor="let order of orders">
+            <div class="customer-info">
+                <strong>{{ order.orderNumber }}</strong>
+                <small>Status: {{ order.status }}</small>
+            </div>
+            <div class="service-type">
+                Amount: {{ order.totalAmount }}
+            </div>
+            <div class="service-date">
+                Created: {{ order.createdAt | date:'dd/MM/yyyy' }}
+            </div>
+            <div class="view-btn">
+                <button (click)="openDetailModal(orderDetailModal, order)">View Details</button>
+            </div>
         </div>
-        <div class="service-type">
-            Amount: {{ order.totalAmount }}
-        </div>
-        <div class="service-date">
-            Created: {{ order.createdAt | date:'dd/MM/yyyy' }}
-        </div>
-        <div class="view-btn">
-            <button (click)="openDetailModal(orderDetailModal, order)">View Details</button>
-        </div>
+
+        <nav *ngIf="total > limit" aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-3">
+                <li class="page-item" [class.disabled]="page === 1">
+                    <button class="page-link" (click)="pageChange(page - 1)">Previous</button>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ page }}</span>
+                </li>
+                <li class="page-item" [class.disabled]="page * limit >= total">
+                    <button class="page-link" (click)="pageChange(page + 1)">Next</button>
+                </li>
+            </ul>
+        </nav>
     </div>
 
-    <nav *ngIf="total > limit" aria-label="Page navigation">
-        <ul class="pagination justify-content-center mt-3">
-            <li class="page-item" [class.disabled]="page === 1">
-                <button class="page-link" (click)="pageChange(page - 1)">Previous</button>
-            </li>
-            <li class="page-item disabled">
-                <span class="page-link">Page {{ page }}</span>
-            </li>
-            <li class="page-item" [class.disabled]="page * limit >= total">
-                <button class="page-link" (click)="pageChange(page + 1)">Next</button>
-            </li>
-        </ul>
-    </nav>
 </div>
 
 <ng-template #orderDetailModal let-modal>

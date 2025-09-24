@@ -26,6 +26,8 @@ export class CleaningComponent implements OnInit {
   limit: number = 10;
   total: number = 0;
 
+  loading: boolean = false;
+
   constructor(
     private service: MemorialService,
     private modalService: NgbModal
@@ -36,6 +38,7 @@ export class CleaningComponent implements OnInit {
   }
 
   loadServices() {
+    this.loading = true;
     const params: any = {
       status: this.selectedStatus,
       createdDate: this.selectedDate ? this.formatDate(this.selectedDate) : '',
@@ -48,9 +51,10 @@ export class CleaningComponent implements OnInit {
       next: (res: any) => {
         this.services = res.data;
         this.total = res.meta.total;
-        this.filteredServices = this.services; // Can apply additional front-end filtering if needed
+        this.filteredServices = this.services;
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error(err),
+      complete: () => this.loading = false
     });
   }
 

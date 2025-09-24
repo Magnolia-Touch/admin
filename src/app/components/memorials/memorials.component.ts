@@ -22,6 +22,8 @@ export class MemorialsComponent implements OnInit {
   limit = 10;
   total = 0;
 
+  loading: boolean = false;
+
   statuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'];
 
   constructor(
@@ -34,6 +36,7 @@ export class MemorialsComponent implements OnInit {
   }
 
   loadMemorials() {
+    this.loading = true;
     const query: any = {
       page: this.page,
       limit: this.limit
@@ -52,7 +55,8 @@ export class MemorialsComponent implements OnInit {
       },
       error: (err: any) => {
         console.error(err);
-      }
+      },
+      complete: () => this.loading = false
     });
   }
 
