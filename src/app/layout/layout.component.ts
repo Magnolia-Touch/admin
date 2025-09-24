@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { AuthService } from '../core/interceptor/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,7 +14,10 @@ export class LayoutComponent {
   isSidebarOpen = false;
   isProfileMenuOpen = false;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const route = this.router.url.split('/')[1];
@@ -46,7 +50,7 @@ export class LayoutComponent {
   }
 
   logout() {
-    console.log("Logged out");
     this.isProfileMenuOpen = false;
+    this.authService.logout()
   }
 }
