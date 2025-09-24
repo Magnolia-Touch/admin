@@ -57,6 +57,9 @@ export class MemorialsComponent implements OnInit {
   }
 
   openDetailModal(content: TemplateRef<any>, order: any) {
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur();
+
     this.selectedOrder = order;
     this.modalService.open(content, { size: 'lg', backdrop: 'static' });
   }

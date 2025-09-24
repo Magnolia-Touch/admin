@@ -2,28 +2,26 @@
     <h3 class="title">Memorial List</h3>
 
     <div class="filter-bar">
+          <div class="filter-item">
+    <i class="bi bi-list"></i>
+    <select [(ngModel)]="selectedStatus" (change)="loadMemorials()">
+      <option value="">All Status</option>
+      <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+    </select>
+  </div>
         <div class="filter-item">
-            <select [(ngModel)]="selectedStatus" (change)="loadMemorials()">
-                <option value="">Status</option>
-                <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
-            </select>
+            <i class="bi bi-search"></i>
+            <input type="text" class="search-input" placeholder="Search by Order Number" [(ngModel)]="orderNumber"
+                (input)="loadMemorials()">
         </div>
-
         <div class="filter-item">
-            <input type="text" class="form-control" placeholder="Order Number" [(ngModel)]="orderNumber"
-                (keyup.enter)="loadMemorials()" />
-        </div>
-
-        <div class="filter-item">
-            <input class="form-control datepicker-input" placeholder="Created Date" name="selectedDate" ngbDatepicker
+            <i class="bi bi-calendar"></i>
+            <input class="datepicker-input" placeholder="Created Date" name="selectedDate" ngbDatepicker
                 #d="ngbDatepicker" readonly (click)="d.toggle()" (dateSelect)="loadMemorials()"
                 [(ngModel)]="selectedDate" />
-            <i class="bi bi-calendar" (click)="d.toggle()"></i>
         </div>
-
         <div class="filter-item reset" (click)="resetFilters()">
-            <i class="bi bi-arrow-counterclockwise"></i>
-            <span>Reset Filter</span>
+            <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
         </div>
     </div>
 
