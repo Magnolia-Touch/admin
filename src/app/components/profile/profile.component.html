@@ -1,1 +1,77 @@
-<p>profile works!</p>
+<div class="container-fluid">
+    <div class="card shadow p-4">
+        <h3 class="mb-3">Profile</h3>
+
+        <!-- Loader -->
+        <div *ngIf="loading" class="text-center my-4">
+            <div class="spinner-border text-custom"></div>
+        </div>
+
+        <!-- Profile Details -->
+        <div *ngIf="!loading && profile && !editingProfile">
+            <p><strong>Name:</strong> {{ profile.customer_name }}</p>
+            <p><strong>Email:</strong> {{ profile.email }}</p>
+            <p><strong>Phone:</strong> {{ profile.Phone }}</p>
+            <button class="btn btn-custom" (click)="editingProfile = true">Edit Profile</button>
+        </div>
+
+        <!-- Profile Edit Form -->
+        <form *ngIf="editingProfile" [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" formControlName="customer_name" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" formControlName="email" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-control" formControlName="Phone" />
+            </div>
+
+            <button type="submit" class="btn btn-custom me-2">Save Changes</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="editingProfile = false">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Create New Admin -->
+    <div class="card shadow p-4 mt-4">
+        <h3 class="mb-3">Admin Management</h3>
+
+        <!-- Show Add Admin Button -->
+        <div *ngIf="!addingAdmin">
+            <button class="btn btn-success" (click)="addingAdmin = true">Add Admin</button>
+        </div>
+
+        <!-- Admin Form -->
+        <form *ngIf="addingAdmin" [formGroup]="adminForm" (ngSubmit)="createAdmin()">
+            <p class="note">⚠️ Please make sure to remember the admin credentials. They will not be shown again.</p>
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" formControlName="customer_name" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" formControlName="email" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-control" formControlName="Phone" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" formControlName="password" />
+            </div>
+
+            <button type="submit" class="btn btn-success me-2">Create Admin</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="addingAdmin = false">Cancel</button>
+        </form>
+    </div>
+</div>
