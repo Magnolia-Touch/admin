@@ -18,6 +18,7 @@ export class AccountsComponent implements OnInit {
   limit = 10;
   totalPages = 1;
   pages: number[] = [];
+  loading = false;
 
   constructor(
     private service: AccountsService,
@@ -29,14 +30,19 @@ export class AccountsComponent implements OnInit {
   }
 
   loadAccounts() {
+    this.loading = true;
     const query = `?page=${this.page}?limit=${this.limit}${this.searchName ? `&search=${this.searchName}` : ''}`;
     this.service.getAllUsers(query).subscribe({
       next: (res: any) => {
         this.accounts = res.data;
         this.totalPages = res.lastPage;
         this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+        this.loading = false;
       },
-      error: (err: any) => console.error(err)
+      error: (err: any) => {
+        console.error(err)
+        this.loading = false;
+      }
     });
   }
 

@@ -41,15 +41,19 @@
     border-right: none;
 }
 
-.filter-item select,
-.filter-item input[type="date"] {
+.filter-item input[type="text"] {
     border: none;
     background: transparent;
     outline: none;
     font-size: 14px;
     color: #333;
-    padding-right: 5px;
-    cursor: pointer;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-item input[type="text"]::placeholder {
+    color: #888;
 }
 
 .filter-item select option {
