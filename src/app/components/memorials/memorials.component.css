@@ -183,6 +183,14 @@
     overflow: hidden;
 }
 
+.profile-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #b0c4de;
+}
+
 /* Optional: responsive adjustments */
 @media (max-width: 576px) {
     .modal-body {

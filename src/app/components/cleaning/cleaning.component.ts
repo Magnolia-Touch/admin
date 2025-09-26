@@ -25,6 +25,7 @@ export class CleaningComponent implements OnInit {
   page: number = 1;
   limit: number = 10;
   total: number = 0;
+  totalPages: number = 1;
 
   loading: boolean = false;
 
@@ -51,6 +52,7 @@ export class CleaningComponent implements OnInit {
       next: (res: any) => {
         this.services = res.data;
         this.total = res.meta.total;
+        this.totalPages = res.meta.totalPages;
         this.filteredServices = this.services;
       },
       error: (err) => console.error(err),
@@ -66,9 +68,17 @@ export class CleaningComponent implements OnInit {
   }
 
   pageChange(newPage: number) {
-    if (newPage < 1 || newPage > Math.ceil(this.total / this.limit)) return;
+    if (newPage < 1 || newPage > this.totalPages) return;
     this.page = newPage;
     this.loadServices();
+  }
+
+  pagesArray(): number[] {
+    const pages: number[] = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   openDetailModal(content: any, service: any) {

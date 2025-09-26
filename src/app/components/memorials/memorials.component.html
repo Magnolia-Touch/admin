@@ -9,17 +9,20 @@
                 <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
             </select>
         </div>
+
         <div class="filter-item">
             <i class="bi bi-search"></i>
-            <input type="text" class="search-input" placeholder="Search by Order Number" [(ngModel)]="orderNumber"
+            <input type="text" class="search-input" placeholder="Search by Email" [(ngModel)]="orderNumber"
                 (input)="loadMemorials()">
         </div>
+
         <div class="filter-item">
             <i class="bi bi-calendar"></i>
             <input class="datepicker-input" placeholder="Created Date" name="selectedDate" ngbDatepicker
                 #d="ngbDatepicker" readonly (click)="d.toggle()" (dateSelect)="loadMemorials()"
                 [(ngModel)]="selectedDate" />
         </div>
+
         <div class="filter-item reset" (click)="resetFilters()">
             <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
         </div>
@@ -31,53 +34,68 @@
         </div>
     </div>
 
-    <div *ngIf="!loading && orders.length === 0" class="no-results">
-        No orders match your filters.
+    <div *ngIf="!loading && memorials.length === 0" class="no-results">
+        No memorials found.
     </div>
 
     <div *ngIf="!loading">
-        <div class="subscription-card" *ngFor="let order of orders">
+        <div class="subscription-card" *ngFor="let m of memorials">
             <div class="customer-info">
-                <strong>{{ order.orderNumber }}</strong>
-                <small>Status: {{ order.status }}</small>
+                <strong>{{ m.firstName }} {{ m.lastName }}</strong>
+                <small>Memorial Place: {{ m.memorial_place }}</small>
             </div>
+
             <div class="service-type">
-                Amount: {{ order.totalAmount }}
+                Born: {{ m.born_date | date:'dd/MM/yyyy' }}
             </div>
+
             <div class="service-date">
-                Created: {{ order.createdAt | date:'dd/MM/yyyy' }}
+                Died: {{ m.death_date | date:'dd/MM/yyyy' }}
             </div>
+
             <div class="view-btn">
-                <button (click)="openDetailModal(orderDetailModal, order)">View Details</button>
+                <button (click)="openDetailModal(orderDetailModal, m)">View Details</button>
             </div>
         </div>
 
-        <nav *ngIf="total > limit" aria-label="Page navigation">
-            <ul class="pagination justify-content-center mt-3">
-                <li class="page-item" [class.disabled]="page === 1">
-                    <button class="page-link" (click)="pageChange(page - 1)">Previous</button>
-                </li>
-                <li class="page-item disabled">
-                    <span class="page-link">Page {{ page }}</span>
-                </li>
-                <li class="page-item" [class.disabled]="page * limit >= total">
-                    <button class="page-link" (click)="pageChange(page + 1)">Next</button>
-                </li>
-            </ul>
-        </nav>
-    </div>
+        <nav *ngIf="totalPages > 1" aria-label="Page navigation">
+  <ul class="pagination justify-content-center mt-3">
 
+    <!-- Previous Button -->
+    <li class="page-item" [class.disabled]="page === 1">
+      <button class="page-link" (click)="pageChange(page - 1)">Previous</button>
+    </li>
+
+    <!-- Numeric Page Buttons -->
+    <li class="page-item" *ngFor="let p of pagesArray()" [class.active]="p === page">
+      <button class="page-link" (click)="pageChange(p)">{{ p }}</button>
+    </li>
+
+    <!-- Next Button -->
+    <li class="page-item" [class.disabled]="page === totalPages">
+      <button class="page-link" (click)="pageChange(page + 1)">Next</button>
+    </li>
+    
+  </ul>
+</nav>
+    </div>
 </div>
 
 <ng-template #orderDetailModal let-modal>
     <div class="modal-header">
-        <h5 class="modal-title">Order Details - {{ selectedOrder?.orderNumber }}</h5>
+        <h5 class="modal-title">Memorial Details - {{ selectedMemorial?.firstName }} {{ selectedMemorial?.lastName }}
+        </h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
     </div>
     <div class="modal-body">
-        <p><strong>Status:</strong> {{ selectedOrder?.status }}</p>
-        <p><strong>Total Amount:</strong> {{ selectedOrder?.totalAmount }}</p>
-        <p><strong>Notes:</strong> {{ selectedOrder?.notes || 'N/A' }}</p>
-        <p><strong>Created At:</strong> {{ selectedOrder?.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+        <img *ngIf="selectedMemorial?.profile_image" [src]="selectedMemorial.profile_image" alt="Profile Image"
+            class="profile-image mb-3" />
+
+        <p><strong>Owner:</strong> {{ selectedMemorial?.owner_id }}</p>
+        <p><strong>Status:</strong> {{ selectedMemorial?.is_paid ? 'Paid' : 'Unpaid' }}</p>
+        <p><strong>Born:</strong> {{ selectedMemorial?.born_date | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Died:</strong> {{ selectedMemorial?.death_date | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Memorial Place:</strong> {{ selectedMemorial?.memorial_place }}</p>
+        <p><strong>Created At:</strong> {{ selectedMemorial?.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
     </div>
 </ng-template>

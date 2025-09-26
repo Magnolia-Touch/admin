@@ -7,15 +7,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MemorialService {
 
-  private OrderUrl = `${environment.apiUrl}/orders`
+  private OrderUrl = `${environment.apiUrl}/memories`
   private bookingUrl = `${environment.apiUrl}/booking`
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getOrderList(params: any) {
-    return this.http.get(`${this.OrderUrl}/memorial-orders`, { params })
+  getMemorialList(params: any) {
+    return this.http.get(`${this.OrderUrl}/profiles`, { params })
   }
 
   getCleaningServices(params: any) {

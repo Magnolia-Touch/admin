@@ -15,12 +15,13 @@ export class MemorialsComponent implements OnInit {
   selectedStatus = '';
   orderNumber = '';
 
-  orders: any[] = [];
-  selectedOrder: any = null;
+  memorials: any[] = [];
+  selectedMemorial: any = null;
 
   page = 1;
   limit = 10;
   total = 0;
+  totalPages: number = 1;
 
   loading: boolean = false;
 
@@ -37,25 +38,23 @@ export class MemorialsComponent implements OnInit {
 
   loadMemorials() {
     this.loading = true;
-    const query: any = {
-      page: this.page,
-      limit: this.limit
-    };
+    const query: any = { page: this.page, limit: this.limit };
 
-    if (this.selectedStatus) query.status = this.selectedStatus;
-    if (this.orderNumber) query.orderNumber = this.orderNumber;
+    if (this.selectedStatus) query.is_paid = this.selectedStatus === 'paid';
+    if (this.orderNumber) query.owner_id = this.orderNumber;
     if (this.selectedDate) {
-      query.createdDate = `${this.selectedDate.year}-${String(this.selectedDate.month).padStart(2, '0')}-${String(this.selectedDate.day).padStart(2, '0')}`;
+      query.createdAt = `${this.selectedDate.year}-${String(this.selectedDate.month).padStart(2, '0')}-${String(this.selectedDate.day).padStart(2, '0')}`;
     }
 
-    this.service.getOrderList(query).subscribe({
+    this.service.getMemorialList(query).subscribe({
       next: (res: any) => {
-        this.orders = res.data;
+        this.memorials = res.data;
         this.total = res.meta.total;
+        this.limit = res.meta.limit;
+        this.page = res.meta.page;
+        this.totalPages = res.meta.totalPages;  // <--- new property
       },
-      error: (err: any) => {
-        console.error(err);
-      },
+      error: (err) => console.error(err),
       complete: () => this.loading = false
     });
   }
@@ -64,7 +63,7 @@ export class MemorialsComponent implements OnInit {
     const buttonElement = document.activeElement as HTMLElement;
     buttonElement.blur();
 
-    this.selectedOrder = order;
+    this.selectedMemorial = order;
     this.modalService.open(content, { size: 'lg', backdrop: 'static' });
   }
 
@@ -77,7 +76,16 @@ export class MemorialsComponent implements OnInit {
   }
 
   pageChange(newPage: number) {
+    if (newPage < 1 || newPage > this.totalPages) return;
     this.page = newPage;
     this.loadMemorials();
+  }
+
+  pagesArray(): number[] {
+    const pages: number[] = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 }
