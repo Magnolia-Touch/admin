@@ -40,11 +40,11 @@ export class MemorialsComponent implements OnInit {
     this.loading = true;
     const query: any = { page: this.page, limit: this.limit };
 
-    if (this.selectedStatus) query.is_paid = this.selectedStatus === 'paid';
-    if (this.orderNumber) query.owner_id = this.orderNumber;
-    if (this.selectedDate) {
-      query.createdAt = `${this.selectedDate.year}-${String(this.selectedDate.month).padStart(2, '0')}-${String(this.selectedDate.day).padStart(2, '0')}`;
-    }
+    // if (this.selectedStatus) query.is_paid = this.selectedStatus === 'paid';
+    if (this.orderNumber) query.search = this.orderNumber;
+    // if (this.selectedDate) {
+    //   query.createdAt = `${this.selectedDate.year}-${String(this.selectedDate.month).padStart(2, '0')}-${String(this.selectedDate.day).padStart(2, '0')}`;
+    // }
 
     this.service.getMemorialList(query).subscribe({
       next: (res: any) => {
@@ -68,8 +68,8 @@ export class MemorialsComponent implements OnInit {
   }
 
   resetFilters() {
-    this.selectedDate = null;
-    this.selectedStatus = '';
+    // this.selectedDate = null;
+    // this.selectedStatus = '';
     this.orderNumber = '';
     this.page = 1;
     this.loadMemorials();

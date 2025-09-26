@@ -22,7 +22,7 @@ export const routes: Routes = [
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'accounts', component: AccountsComponent },
-            { path: 'account/:id', component: AccountsDetailComponent },
+            { path: 'accountdetail', component: AccountsDetailComponent },
             { path: 'memorials', component: MemorialsComponent },
             { path: 'memorial/:id', component: MemorialDetailComponent },
             { path: 'flowers', component: FlowerComponent },

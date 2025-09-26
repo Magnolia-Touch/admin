@@ -1,1 +1,34 @@
-<p>accounts-detail works!</p>
+<div class="subscription-list">
+    <h3 class="title">Customer Details</h3>
+
+    <div *ngIf="customer">
+        <div class="subscription-card">
+            <div class="customer-info">
+                <strong>{{ customer.customer_name }}</strong>
+                <small>{{ customer.email }} | </small>
+                <small>{{ customer.Phone }}</small>
+            </div>
+        </div>
+
+        <h4 class="sub-section-title">Dead Person Profiles</h4>
+        <div *ngFor="let profile of customer.deadPersonProfiles" class="subscription-card profile-card">
+            <img [src]="profile.profile_image" alt="{{ profile.firstName }}">
+            <div class="profile-info">
+                <p><strong>{{ profile.firstName }} {{ profile.lastName }}</strong></p>
+                <p>Born: {{ profile.born_date | date }}</p>
+                <p>Died: {{ profile.death_date | date }}</p>
+                <p>Memorial: {{ profile.memorial_place }}</p>
+                <p>Status: {{ profile.is_paid ? 'Paid' : 'Not Paid' }}</p>
+            </div>
+        </div>
+
+        <h4 class="sub-section-title">Bookings</h4>
+        <div *ngFor="let booking of customer.Booking" class="subscription-card booking-card">
+            <div class="booking-info">
+                <p>Booking ID: {{ booking.booking_ids }}</p>
+                <p>Name on Memorial: {{ booking.name_on_memorial }}</p>
+                <p>Subscription: {{ booking.subscription.Subscription_name }}</p>
+            </div>
+        </div>
+    </div>
+</div>

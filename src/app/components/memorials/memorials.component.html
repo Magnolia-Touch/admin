@@ -2,26 +2,26 @@
     <h3 class="title">Memorial List</h3>
 
     <div class="filter-bar">
-        <div class="filter-item">
+        <!-- <div class="filter-item">
             <i class="bi bi-list"></i>
             <select [(ngModel)]="selectedStatus" (change)="loadMemorials()">
                 <option value="">All Status</option>
                 <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
             </select>
-        </div>
+        </div> -->
 
         <div class="filter-item">
             <i class="bi bi-search"></i>
-            <input type="text" class="search-input" placeholder="Search by Email" [(ngModel)]="orderNumber"
+            <input type="text" class="search-input" placeholder="Search by Name" [(ngModel)]="orderNumber"
                 (input)="loadMemorials()">
         </div>
 
-        <div class="filter-item">
+        <!-- <div class="filter-item">
             <i class="bi bi-calendar"></i>
             <input class="datepicker-input" placeholder="Created Date" name="selectedDate" ngbDatepicker
                 #d="ngbDatepicker" readonly (click)="d.toggle()" (dateSelect)="loadMemorials()"
                 [(ngModel)]="selectedDate" />
-        </div>
+        </div> -->
 
         <div class="filter-item reset" (click)="resetFilters()">
             <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
@@ -59,25 +59,25 @@
         </div>
 
         <nav *ngIf="totalPages > 1" aria-label="Page navigation">
-  <ul class="pagination justify-content-center mt-3">
+            <ul class="pagination justify-content-center mt-3">
 
-    <!-- Previous Button -->
-    <li class="page-item" [class.disabled]="page === 1">
-      <button class="page-link" (click)="pageChange(page - 1)">Previous</button>
-    </li>
+                <!-- Previous Button -->
+                <li class="page-item" [class.disabled]="page === 1">
+                    <button class="page-link" (click)="pageChange(page - 1)">Previous</button>
+                </li>
 
-    <!-- Numeric Page Buttons -->
-    <li class="page-item" *ngFor="let p of pagesArray()" [class.active]="p === page">
-      <button class="page-link" (click)="pageChange(p)">{{ p }}</button>
-    </li>
+                <!-- Numeric Page Buttons -->
+                <li class="page-item" *ngFor="let p of pagesArray()" [class.active]="p === page">
+                    <button class="page-link" (click)="pageChange(p)">{{ p }}</button>
+                </li>
 
-    <!-- Next Button -->
-    <li class="page-item" [class.disabled]="page === totalPages">
-      <button class="page-link" (click)="pageChange(page + 1)">Next</button>
-    </li>
-    
-  </ul>
-</nav>
+                <!-- Next Button -->
+                <li class="page-item" [class.disabled]="page === totalPages">
+                    <button class="page-link" (click)="pageChange(page + 1)">Next</button>
+                </li>
+
+            </ul>
+        </nav>
     </div>
 </div>
 
