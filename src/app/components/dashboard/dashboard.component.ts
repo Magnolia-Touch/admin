@@ -18,6 +18,8 @@ export class DashboardComponent implements OnInit {
   counts!: any;
   revenue!: any;
   chart!: Chart;
+  loadingCounts: boolean = true;
+  loadingRevenue: boolean = true;
 
   startDate!: NgbDateStruct;
   endDate!: NgbDateStruct;
@@ -34,18 +36,22 @@ export class DashboardComponent implements OnInit {
   }
 
   loadCounts() {
+    this.loadingCounts = true;
     const today = new Date().toISOString().split('T')[0];
     this.service.getCounts(today).subscribe({
       next: (res: any) => {
         this.counts = res;
+        this.loadingCounts = false;
       },
       error: (err) => {
         console.error('Error loading counts:', err);
+        this.loadingCounts = false;
       }
     });
   }
 
   loadRevenue() {
+    this.loadingRevenue = true;
     let start: string | undefined;
     let end: string | undefined;
 
@@ -59,8 +65,12 @@ export class DashboardComponent implements OnInit {
       next: (res: any) => {
         this.revenue = res;
         this.renderChart();
+        this.loadingRevenue = false;
       },
-      error: (err) => console.error('Error loading revenue:', err)
+      error: (err) => {
+        console.error('Error loading revenue:', err)
+        this.loadingRevenue = false;
+      }
     });
   }
 

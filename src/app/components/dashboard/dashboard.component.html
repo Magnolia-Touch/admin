@@ -1,5 +1,6 @@
 <div class="container-fluid">
-    <div class="cards" *ngIf="counts">
+    <!-- Cards -->
+    <div class="cards" *ngIf="counts; else loadingCounts">
         <div class="card">
             <i class="bi bi-heart-pulse"></i>
             <div class="content">
@@ -30,11 +31,18 @@
         </div>
     </div>
 
+    <ng-template #loadingCounts>
+        <div class="text-center my-4">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    </ng-template>
+
+    <!-- Filters -->
     <div class="heading mt-4">
         <h3>Revenue</h3>
         <div class="filters">
             <div class="row mb-4 align-items-end">
-                <div class="col-md-2">
+                <div class="col-md-2 col-6">
                     <label class="form-label">Filter Type</label>
                     <select class="form-select" [(ngModel)]="filterType" (change)="onFilterChange()">
                         <option value="year">Year</option>
@@ -42,7 +50,7 @@
                         <option value="range">Range</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 col-6">
                     <label class="form-label">Service Type</label>
                     <select class="form-select" [(ngModel)]="serviceType" (change)="onFilterChange()">
                         <option value="all">All</option>
@@ -50,24 +58,28 @@
                         <option value="memorial">Memorial</option>
                     </select>
                 </div>
-                <div class="col-md-2" *ngIf="filterType === 'range'">
+                <div class="col-md-2 col-6" *ngIf="filterType === 'range'">
                     <label class="form-label">Start Date</label>
                     <input class="form-control" placeholder="Start Date" name="startDate" [(ngModel)]="startDate"
                         ngbDatepicker #startDp="ngbDatepicker" (click)="startDp.toggle()" autocomplete="off" readonly />
                 </div>
-                <div class="col-md-2" *ngIf="filterType === 'range'">
+                <div class="col-md-2 col-6" *ngIf="filterType === 'range'">
                     <label class="form-label">End Date</label>
                     <input class="form-control" placeholder="End Date" name="endDate" [(ngModel)]="endDate"
                         ngbDatepicker #endDp="ngbDatepicker" (click)="endDp.toggle()" autocomplete="off" readonly />
                 </div>
-                <div class="col-md-2 d-flex align-items-end" *ngIf="filterType === 'range'">
+                <div class="col-md-2 col-6 d-flex align-items-end" *ngIf="filterType === 'range'">
                     <button class="btn btn-primary w-100" (click)="onDateChange()">Apply Filters</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="chart mt-4">
+    <!-- Chart -->
+    <div class="chart mt-4 position-relative">
+        <div *ngIf="!revenue" class="text-center my-4">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
         <canvas id="revenueChart"></canvas>
     </div>
 </div>
