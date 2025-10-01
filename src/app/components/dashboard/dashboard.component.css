@@ -61,3 +61,52 @@
     font-size: 0.9rem;
     color: #777;
 }
+
+.filters {
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.filters .form-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.filters .form-select,
+.filters .form-control,
+.filters .btn {
+    border-radius: 8px;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.95rem;
+}
+
+.filters .btn {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    font-weight: 600;
+}
+
+.filters .btn:hover {
+    background-color: #1677cc;
+    border-color: #1677cc;
+}
+
+.filters .row {
+    gap: 1rem;
+}
+
+.chart {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+}
+
+@media (max-width: 768px) {
+
+    .filters .col-md-2,
+    .filters .col-md-3 {
+        flex: 1 1 100%;
+    }
+}
