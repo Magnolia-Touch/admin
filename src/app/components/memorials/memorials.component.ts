@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MemorialService } from './service/memorial.service';
+import { AlertService } from '../../shared/alert/service/alert.service';
 
 @Component({
   selector: 'app-memorials',
@@ -14,6 +15,7 @@ export class MemorialsComponent implements OnInit {
   selectedDate: NgbDateStruct | null = null;
   selectedStatus = '';
   orderNumber = '';
+  qrFilename: string = '';
 
   memorials: any[] = [];
   selectedMemorial: any = null;
@@ -29,7 +31,8 @@ export class MemorialsComponent implements OnInit {
 
   constructor(
     private service: MemorialService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +67,7 @@ export class MemorialsComponent implements OnInit {
     buttonElement.blur();
 
     this.selectedMemorial = order;
+    this.qrFilename = this.selectedMemorial?.slug;
     this.modalService.open(content, { size: 'lg', backdrop: 'static' });
   }
 
@@ -87,5 +91,34 @@ export class MemorialsComponent implements OnInit {
       pages.push(i);
     }
     return pages;
+  }
+
+  generateQRCode() {
+    if (!this.selectedMemorial) return;
+
+    const slug = this.selectedMemorial.slug;
+    const link = `https://api.magnoliatouch.com/memories?code=${slug}`;
+    const filename = this.qrFilename?.trim() || slug;
+
+    this.service.createQR(link, filename).subscribe({
+      next: (res: any) => {
+        this.alertService.showAlert({
+          message: 'QR Generated',
+          type: 'success',
+          autoDismiss: true,
+          duration: 4000
+        });
+        console.log('QR Response:', res);
+      },
+      error: (err) => {
+        console.error('QR generation failed', err);
+        this.alertService.showAlert({
+          message: err.message,
+          type: 'error',
+          autoDismiss: true,
+          duration: 4000
+        });
+      }
+    });
   }
 }

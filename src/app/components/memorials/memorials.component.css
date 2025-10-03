@@ -191,6 +191,14 @@
   border: 2px solid #b0c4de;
 }
 
+.qr-section {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+.qr-section .form-control {
+  max-width: 300px;
+}
+
 /* Optional: responsive adjustments */
 @media (max-width: 576px) {
     .modal-body {

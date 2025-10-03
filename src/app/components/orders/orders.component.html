@@ -1,0 +1,73 @@
+<div class="subscription-list">
+    <h3 class="title">Order List</h3>
+
+    <div *ngIf="orders.length === 0 && !loading" class="no-results">
+        No orders found.
+    </div>
+
+    <div *ngIf="loading" class="no-results">
+        Loading orders...
+    </div>
+
+    <div class="subscription-card" *ngFor="let order of orders">
+        <div class="customer-info">
+            <strong>{{ order.orderNumber }}</strong>
+            <small>Status: {{ order.status }}</small>
+        </div>
+
+        <div class="service-type">
+            <span>Total: ₹{{ order.totalAmount }}</span>
+        </div>
+
+        <div class="service-date">
+            {{ order.createdAt | date}}
+        </div>
+
+        <div class="service-type">
+            <span [ngClass]="order.is_paid ? 'text-success' : 'text-danger'">
+                {{ order.is_paid ? 'Paid' : 'Not Paid' }}
+            </span>
+        </div>
+
+        <div class="view-btn">
+            <button (click)="openDetailModal(orderDetailModal, order)">View Details</button>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav *ngIf="totalPages > 1">
+        <ul class="pagination justify-content-center mt-3">
+            <li class="page-item" [class.disabled]="page === 1">
+                <button class="page-link" (click)="changePage(page - 1)">Previous</button>
+            </li>
+
+            <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
+                <button class="page-link" (click)="changePage(p)">{{ p }}</button>
+            </li>
+
+            <li class="page-item" [class.disabled]="page === totalPages">
+                <button class="page-link" (click)="changePage(page + 1)">Next</button>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<ng-template #orderDetailModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Order Details</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body" *ngIf="selectedOrder">
+        <p><strong>Order Number:</strong> {{ selectedOrder.orderNumber }}</p>
+        <p><strong>Status:</strong> {{ selectedOrder.status }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ selectedOrder.totalAmount }}</p>
+        <p><strong>Payment:</strong> {{ selectedOrder.is_paid ? 'Paid' : 'Not Paid' }}</p>
+        <p><strong>Created At:</strong> {{ selectedOrder.createdAt | date}}</p>
+        <p><strong>Updated At:</strong> {{ selectedOrder.updatedAt | date}}</p>
+        <p><strong>Notes:</strong> {{ selectedOrder.notes || 'N/A' }}</p>
+        <p><strong>Memory Profile:</strong> {{ selectedOrder.memoryProfileId }}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
+    </div>
+</ng-template>

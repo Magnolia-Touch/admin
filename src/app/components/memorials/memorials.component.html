@@ -97,5 +97,15 @@
         <p><strong>Died:</strong> {{ selectedMemorial?.death_date | date:'dd/MM/yyyy' }}</p>
         <p><strong>Memorial Place:</strong> {{ selectedMemorial?.memorial_place }}</p>
         <p><strong>Created At:</strong> {{ selectedMemorial?.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+
+        <div class="qr-section mt-3">
+            <label for="qrFilename" class="form-label"><strong>QR File Name</strong></label>
+            <input id="qrFilename" type="text" class="form-control" [(ngModel)]="qrFilename"
+                [value]="selectedMemorial?.slug" />
+
+            <button class="btn btn-primary mt-2" (click)="generateQRCode()">
+                <i class="bi bi-qr-code"></i> Generate QR Code
+            </button>
+        </div>
     </div>
 </ng-template>

@@ -125,7 +125,6 @@ export class FlowerComponent implements OnInit {
 
     request$.subscribe({
       next: (res: any) => {
-        console.log(res);
         this.alertService.showAlert({
           message: 'Flower Updated',
           type: 'success',

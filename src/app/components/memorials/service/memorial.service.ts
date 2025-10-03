@@ -9,6 +9,7 @@ export class MemorialService {
 
   private OrderUrl = `${environment.apiUrl}/memories`
   private bookingUrl = `${environment.apiUrl}/booking`
+  private QrUrl = `${environment.apiUrl}/qr`
 
   constructor(
     private http: HttpClient
@@ -20,6 +21,10 @@ export class MemorialService {
 
   getCleaningServices(params: any) {
     return this.http.get(`${this.bookingUrl}/service-bookings`, { params })
+  }
+
+  createQR(link: string, filename: string) {
+    return this.http.post(`${this.QrUrl}/generate`, { link: link, filename: filename })
   }
 
 }

@@ -11,6 +11,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { authGuard } from './core/guard/auth.guard';
 import { PlansComponent } from './components/plans/plans.component';
 import { CleaningComponent } from './components/cleaning/cleaning.component';
+import { OrdersComponent } from './components/orders/orders.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -28,7 +29,8 @@ export const routes: Routes = [
             { path: 'flowers', component: FlowerComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'plans', component: PlansComponent },
-            { path: 'cleaning', component: CleaningComponent }
+            { path: 'cleaning', component: CleaningComponent },
+            { path: 'orders', component: OrdersComponent }
         ]
     }
 ];
