@@ -14,7 +14,7 @@ export class PlansService {
   ) { }
 
   getAllPlans() {
-    return this.http.get(`${this.BaseUrl}/get-subscription-plans`)
+    return this.http.get(`${this.BaseUrl}`)
   }
 
   getPlanByID(id: number) {
@@ -22,6 +22,10 @@ export class PlansService {
   }
 
   addPlan(itm: any) {
-    return this.http.post(`${this.BaseUrl}/add-subscription-plans`, itm)
+    return this.http.post(`${this.BaseUrl}`, itm)
+  }
+
+  deletePlan(id: any) {
+    return this.http.delete(`${this.BaseUrl}/${id}`)
   }
 }

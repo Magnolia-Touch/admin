@@ -23,8 +23,8 @@ export class MemorialService {
     return this.http.get(`${this.bookingUrl}/service-bookings`, { params })
   }
 
-  createQR(link: string, filename: string) {
-    return this.http.post(`${this.QrUrl}/generate`, { link: link, filename: filename })
+  createQR(itm:any) {    
+    return this.http.post(`${this.QrUrl}/generate`, itm)
   }
 
 }

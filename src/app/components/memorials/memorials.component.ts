@@ -97,10 +97,12 @@ export class MemorialsComponent implements OnInit {
     if (!this.selectedMemorial) return;
 
     const slug = this.selectedMemorial.slug;
-    const link = `https://api.magnoliatouch.com/memories?code=${slug}`;
-    const filename = this.qrFilename?.trim() || slug;
 
-    this.service.createQR(link, filename).subscribe({
+    const itm = {
+      link: `http://localhost:4200/page/${slug}`,
+      filename: this.qrFilename?.trim() || slug
+    } 
+    this.service.createQR(itm).subscribe({
       next: (res: any) => {
         this.alertService.showAlert({
           message: 'QR Generated',
@@ -108,7 +110,9 @@ export class MemorialsComponent implements OnInit {
           autoDismiss: true,
           duration: 4000
         });
-        console.log('QR Response:', res);
+      if (res.url) {
+        window.open(res.url, '_blank');
+      }
       },
       error: (err) => {
         console.error('QR generation failed', err);

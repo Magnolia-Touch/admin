@@ -70,17 +70,10 @@
 }
 
 .view-btn button {
-    background: #f8f9fc;
-    border: 1px solid #b0c4de;
     border-radius: 12px;
     padding: 5px 15px;
     cursor: pointer;
     transition: all 0.2s;
-}
-
-.view-btn button:hover {
-    background: #b0c4de;
-    color: white;
 }
 
 .no-results {

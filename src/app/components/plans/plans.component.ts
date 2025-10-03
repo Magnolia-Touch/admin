@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AlertService } from '../../shared/alert/service/alert.service';
+import { ConfirmationService } from '../../shared/confirmation-modal/service/confirmation.service';
 
 @Component({
   selector: 'app-plans',
@@ -22,13 +23,15 @@ export class PlansComponent implements OnInit {
     Subscription_name: '',
     discription: '',
     Frequency: 1,
-    Price: ''
+    Price: '',
+    isSubscriptionPlan: true
   };
 
   constructor(
     private service: PlansService,
     private modalService: NgbModal,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +53,7 @@ export class PlansComponent implements OnInit {
   }
 
   openAddModal(content: TemplateRef<any>) {
-    this.newPlan = { Subscription_name: '', discription: '', Frequency: 1, Price: '' };
+    this.newPlan = { Subscription_name: '', discription: '', Frequency: 1, Price: '', isSubscriptionPlan: true };
     const buttonElement = document.activeElement as HTMLElement;
     buttonElement.blur();
     this.modalRef = this.modalService.open(content, { centered: true });
@@ -82,6 +85,38 @@ export class PlansComponent implements OnInit {
         });
         this.submitting = false;
         console.error(err)
+      }
+    });
+  }
+
+  deletePlan(plan: any) {
+    this.confirmationService.confirm({
+      title: 'Delete Plan',
+      message: `Do you really want to delete "${plan.Subscription_name}"?`,
+      confirmText: 'Delete',
+      cancelText: 'Cancel'
+    }).then((confirmed) => {
+      if (confirmed) {
+        this.service.deletePlan(plan.Subscription_id).subscribe({
+          next: () => {
+            this.alertService.showAlert({
+              message: 'Plan deleted successfully',
+              type: 'success',
+              autoDismiss: true,
+              duration: 4000
+            });
+            this.loadPlans()
+          },
+          error: (err) => {
+            this.alertService.showAlert({
+              message: err.error.message || 'Failed to delete plan. Try again.',
+              type: 'error',
+              autoDismiss: true,
+              duration: 4000
+            });
+            console.error(err);
+          }
+        });
       }
     });
   }
