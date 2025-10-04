@@ -99,7 +99,7 @@ export class MemorialsComponent implements OnInit {
     const slug = this.selectedMemorial.slug;
 
     const itm = {
-      link: `http://localhost:4200/page/${slug}`,
+      link: `https://magnoliatouch.com/page/${slug}`,
       filename: this.qrFilename?.trim() || slug
     } 
     this.service.createQR(itm).subscribe({
