@@ -67,17 +67,40 @@ export class CleaningComponent implements OnInit {
     this.loadServices();
   }
 
-  pageChange(newPage: number) {
+  pageChange(newPage: any) {
     if (newPage < 1 || newPage > this.totalPages) return;
     this.page = newPage;
     this.loadServices();
   }
 
-  pagesArray(): number[] {
-    const pages: number[] = [];
-    for (let i = 1; i <= this.totalPages; i++) {
-      pages.push(i);
+  pagesArray(): (number | string)[] {
+    const totalPages = this.totalPages;
+    const currentPage = this.page;
+    const maxVisible = 5; // Show up to 5 pages at a time
+    const pages: (number | string)[] = [];
+
+    if (totalPages <= maxVisible) {
+      // If few pages, show all
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      const startPage = Math.max(1, currentPage - 2);
+      const endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+      if (startPage > 1) {
+        pages.push(1);
+        if (startPage > 2) pages.push('...');
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) pages.push('...');
+        pages.push(totalPages);
+      }
     }
+
     return pages;
   }
 

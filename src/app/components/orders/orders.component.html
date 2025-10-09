@@ -37,14 +37,23 @@
     <!-- Pagination -->
     <nav *ngIf="totalPages > 1">
         <ul class="pagination justify-content-center mt-3">
+            <!-- Previous -->
             <li class="page-item" [class.disabled]="page === 1">
                 <button class="page-link" (click)="changePage(page - 1)">Previous</button>
             </li>
 
-            <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
-                <button class="page-link" (click)="changePage(p)">{{ p }}</button>
+            <!-- Page Numbers with ellipsis -->
+            <li class="page-item" *ngFor="let p of pagesArray()" [class.active]="p === page"
+                [class.disabled]="p === '...'">
+                <button class="page-link" *ngIf="p !== '...'; else dots" (click)="changePage(p)">
+                    {{ p }}
+                </button>
+                <ng-template #dots>
+                    <span class="page-link">…</span>
+                </ng-template>
             </li>
 
+            <!-- Next -->
             <li class="page-item" [class.disabled]="page === totalPages">
                 <button class="page-link" (click)="changePage(page + 1)">Next</button>
             </li>
