@@ -54,6 +54,9 @@
             </div>
             <div class="view-btn">
                 <button (click)="openDetailModal(orderDetailModal, service)">View Details</button>
+                <button class="btn-status ms-1" (click)="openStatusModal(changeStatusModal, service)">
+                    Change Status
+                </button>
             </div>
         </div>
 
@@ -97,5 +100,24 @@
         <p><strong>First Cleaning Date:</strong> {{ selectedService?.first_cleaning_date | date:'dd/MM/yyyy' }}</p>
         <p><strong>Created At:</strong> {{ selectedService?.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
         <p><strong>Notes:</strong> {{ selectedService?.notes || 'N/A' }}</p>
+    </div>
+</ng-template>
+
+<ng-template #changeStatusModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Change Status - {{ selectedService?.booking_ids }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body">
+        <label for="statusSelect"><strong>Select New Status:</strong></label>
+        <select id="statusSelect" [(ngModel)]="newStatus" class="form-select mt-2">
+            <option *ngFor="let s of cleaningStatuses" [value]="s">{{ s }}</option>
+        </select>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="updateStatus(modal)">Update</button>
     </div>
 </ng-template>

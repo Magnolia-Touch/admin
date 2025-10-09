@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MemorialService } from '../memorials/service/memorial.service';
 import { NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { AlertService } from '../../shared/alert/service/alert.service';
 
 @Component({
   selector: 'app-cleaning',
@@ -19,8 +20,9 @@ export class CleaningComponent implements OnInit {
   selectedStatus: string = '';
   selectedDate: any = null; // Created Date
   firstCleaningDate: any = null;
-
   selectedService: any;
+
+  newStatus: string = '';
 
   page: number = 1;
   limit: number = 10;
@@ -31,7 +33,8 @@ export class CleaningComponent implements OnInit {
 
   constructor(
     private service: MemorialService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -105,8 +108,47 @@ export class CleaningComponent implements OnInit {
   }
 
   openDetailModal(content: any, service: any) {
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur();
+
     this.selectedService = service;
     this.modalService.open(content, { size: 'lg' });
+  }
+
+  openStatusModal(content: any, service: any) {
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur();
+
+    this.selectedService = service;
+    this.newStatus = service.status;
+    this.modalService.open(content, { size: 'md', centered: true });
+  }
+
+  updateStatus(modal: any) {
+    if (!this.newStatus || !this.selectedService) return;
+
+    console.log(this.selectedService, this.newStatus);
+
+    this.service.updatingBookingStatus(this.selectedService.booking_ids, { status: this.newStatus }).subscribe({
+      next: (res) => {
+        this.selectedService.status = this.newStatus;
+        this.alertService.showAlert({
+          message: 'Status Updated',
+          type: 'success',
+          autoDismiss: true,
+          duration: 4000
+        });
+        modal.close();
+      },
+      error: (err) => {
+        this.alertService.showAlert({
+          message: err.error.message || 'Updation failed. Try again.',
+          type: 'error',
+          autoDismiss: true,
+          duration: 4000
+        });
+      }
+    });
   }
 
   private formatDate(date: any): string {

@@ -23,8 +23,12 @@ export class MemorialService {
     return this.http.get(`${this.bookingUrl}/service-bookings`, { params })
   }
 
-  createQR(itm:any) {    
+  createQR(itm: any) {
     return this.http.post(`${this.QrUrl}/generate`, itm)
+  }
+
+  updatingBookingStatus(id: any, itm: any) {
+    return this.http.patch(`${this.bookingUrl}/${id}`, itm)
   }
 
 }

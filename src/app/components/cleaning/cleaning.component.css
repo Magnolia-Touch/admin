@@ -183,6 +183,20 @@
     overflow: hidden;
 }
 
+.btn-status {
+  background: #fff4e5;
+  border: 1px solid #f4b400;
+  border-radius: 12px;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-status:hover {
+  background: #f4b400;
+  color: #fff;
+}
+
 /* Optional: responsive adjustments */
 @media (max-width: 576px) {
     .modal-body {
