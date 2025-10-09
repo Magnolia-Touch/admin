@@ -48,7 +48,7 @@ export class OrdersComponent implements OnInit {
     this.loadOrders();
   }
 
-    pagesArray(): (number | string)[] {
+  pagesArray(): (number | string)[] {
     const total = this.totalPages;
     const current = this.page;
     const maxVisible = 5;

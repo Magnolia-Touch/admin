@@ -37,8 +37,14 @@
                 <button class="page-link" (click)="changePage(page - 1)">Previous</button>
             </li>
 
-            <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
-                <button class="page-link" (click)="changePage(p)">{{ p }}</button>
+            <li class="page-item" *ngFor="let p of pagesArray()" [class.active]="p === page"
+                [class.disabled]="p === '...'">
+                <button class="page-link" *ngIf="p !== '...'; else dots" (click)="changePage(p)">
+                    {{ p }}
+                </button>
+                <ng-template #dots>
+                    <span class="page-link">…</span>
+                </ng-template>
             </li>
 
             <li class="page-item" [class.disabled]="page === totalPages">
