@@ -19,7 +19,6 @@ export class AccountsDetailComponent implements OnInit {
 
   ngOnInit(): void { 
     console.log(this.customer);
-    
   }
 
 

@@ -79,17 +79,35 @@ export class MemorialsComponent implements OnInit {
     this.loadMemorials();
   }
 
-  pageChange(newPage: number) {
-    if (newPage < 1 || newPage > this.totalPages) return;
+  pageChange(newPage: any) {
+    if (newPage < 1 || newPage > this.totalPages || newPage === this.page) return;
     this.page = newPage;
     this.loadMemorials();
   }
 
-  pagesArray(): number[] {
-    const pages: number[] = [];
-    for (let i = 1; i <= this.totalPages; i++) {
-      pages.push(i);
+  getDisplayedPages(): (number | string)[] {
+    const total = this.totalPages;
+    const current = this.page;
+    const delta = 2;
+    const pages: (number | string)[] = [];
+
+    if (total <= 7) {
+      for (let i = 1; i <= total; i++) pages.push(i);
+    } else {
+      const left = Math.max(2, current - delta);
+      const right = Math.min(total - 1, current + delta);
+
+      pages.push(1);
+      if (left > 2) pages.push('...');
+
+      for (let i = left; i <= right; i++) {
+        pages.push(i);
+      }
+
+      if (right < total - 1) pages.push('...');
+      pages.push(total);
     }
+
     return pages;
   }
 
@@ -101,7 +119,7 @@ export class MemorialsComponent implements OnInit {
     const itm = {
       link: `https://magnoliatouch.com/page/${slug}`,
       filename: this.qrFilename?.trim() || slug
-    } 
+    }
     this.service.createQR(itm).subscribe({
       next: (res: any) => {
         this.alertService.showAlert({
@@ -110,9 +128,9 @@ export class MemorialsComponent implements OnInit {
           autoDismiss: true,
           duration: 4000
         });
-      if (res.url) {
-        window.open(res.url, '_blank');
-      }
+        if (res.url) {
+          window.open(res.url, '_blank');
+        }
       },
       error: (err) => {
         console.error('QR generation failed', err);
