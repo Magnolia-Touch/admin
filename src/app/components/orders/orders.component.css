@@ -69,11 +69,36 @@
     padding: 5px 15px;
     cursor: pointer;
     transition: all 0.2s;
+    color: inherit;
 }
 
 .view-btn button:hover {
     background: #b0c4de;
     color: white;
+}
+
+.text-warning {
+    color: #f0ad4e !important;
+}
+
+.text-primary {
+    color: #0275d8 !important;
+}
+
+.text-info {
+    color: #5bc0de !important;
+}
+
+.text-success {
+    color: #5cb85c !important;
+}
+
+.text-danger {
+    color: #d9534f !important;
+}
+
+.text-muted {
+    color: #6c757d !important;
 }
 
 @media (max-width: 768px) {

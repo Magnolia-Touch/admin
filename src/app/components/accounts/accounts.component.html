@@ -25,6 +25,12 @@
             <span *ngIf="customer.deadPersonProfiles.length > 0">Memorial</span>
         </div>
 
+        <div class="status-toggle me-1">
+            <button [ngClass]="customer.isActive ? 'btn-active' : 'btn-inactive'" (click)="toggleStatus(customer)">
+                {{ customer.isActive ? 'Active' : 'Inactive' }}
+            </button>
+        </div>
+
         <div class="view-btn">
             <button (click)="goToDetail(customer)">View Details</button>
         </div>

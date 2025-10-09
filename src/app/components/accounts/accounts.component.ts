@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AccountsService } from './service/accounts.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../../shared/alert/service/alert.service';
+import { ConfirmationService } from '../../shared/confirmation-modal/service/confirmation.service';
 
 @Component({
   selector: 'app-accounts',
@@ -21,7 +23,9 @@ export class AccountsComponent implements OnInit {
 
   constructor(
     private service: AccountsService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -30,8 +34,7 @@ export class AccountsComponent implements OnInit {
 
   loadAccounts() {
     this.loading = true;
-    const query = `?page=${this.page}?limit=${this.limit}${this.searchName ? `&search=${this.searchName}` : ''}`;
-    this.service.getAllUsers(query).subscribe({
+    this.service.getAllUsers(this.page, this.limit, this.searchName).subscribe({
       next: (res: any) => {
         this.accounts = res.data;
         this.totalPages = res.lastPage;
@@ -50,7 +53,7 @@ export class AccountsComponent implements OnInit {
     this.loadAccounts();
   }
 
-      pagesArray(): (number | string)[] {
+  pagesArray(): (number | string)[] {
     const total = this.totalPages;
     const current = this.page;
     const maxVisible = 5;
@@ -78,8 +81,43 @@ export class AccountsComponent implements OnInit {
     return pages;
   }
 
-  goToDetail(customer: any) {    
+  goToDetail(customer: any) {
     this.router.navigate(['/accountdetail'], { state: { customer } });
+  }
+
+  async toggleStatus(customer: any) {
+    const newStatus = !customer.isActive;
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur();
+
+    const confirmed = await this.confirmationService.confirm({
+      title: 'Change Account Status',
+      message: `Are you sure you want to ${newStatus ? 'activate' : 'deactivate'} this account?`,
+      confirmText: 'Yes',
+      cancelText: 'No'
+    });
+
+    if (confirmed) {
+      this.service.updateUserStatus(customer._id, { isActive: newStatus }).subscribe({
+        next: (res: any) => {
+          this.alertService.showAlert({
+            message: 'Status Updated',
+            type: 'success',
+            autoDismiss: true,
+            duration: 4000
+          });
+        },
+        error: (err) => {
+          console.error('Failed to update status', err);
+          this.alertService.showAlert({
+            message: err.error.message || 'Updation failed. Try again.',
+            type: 'error',
+            autoDismiss: true,
+            duration: 4000
+          });
+        }
+      });
+    }
   }
 
 }

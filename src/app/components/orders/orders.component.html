@@ -12,7 +12,11 @@
     <div class="subscription-card" *ngFor="let order of orders">
         <div class="customer-info">
             <strong>{{ order.orderNumber }}</strong>
-            <small>Status: {{ order.status }}</small>
+            <small>Status:
+                <span [ngClass]="statusClass(order.status)">
+                    {{ order.status | titlecase }}
+                </span>
+            </small>
         </div>
 
         <div class="service-type">
@@ -30,7 +34,21 @@
         </div>
 
         <div class="view-btn">
-            <button (click)="openDetailModal(orderDetailModal, order)">View Details</button>
+            <button class="btn btn-info btn-sm me-1" (click)="openDetailModal(orderDetailModal, order)">
+                View Details
+            </button>
+
+            <button class="btn btn-warning btn-sm me-1" (click)="openTrackingModal(trackingModal, order)">
+                Add Tracking
+            </button>
+
+            <button class="btn btn-primary btn-sm me-1" (click)="openStatusModal(statusModal, order)">
+                Update Status
+            </button>
+
+            <button class="btn btn-danger btn-sm" (click)="deleteOrder(order)">
+                Delete
+            </button>
         </div>
     </div>
 
@@ -65,8 +83,9 @@
     </div>
     <div class="modal-body" *ngIf="selectedOrder">
         <p><strong>Order Number:</strong> {{ selectedOrder.orderNumber }}</p>
-        <p><strong>Status:</strong> {{ selectedOrder.status }}</p>
+        <p><strong>Status:</strong> {{ selectedOrder.status | titlecase }}</p>
         <p><strong>Total Amount:</strong> ₹{{ selectedOrder.totalAmount }}</p>
+        <p><strong>Tracking Details:</strong> {{ selectedOrder.tracking_details }}</p>
         <p><strong>Payment:</strong> {{ selectedOrder.is_paid ? 'Paid' : 'Not Paid' }}</p>
         <p><strong>Created At:</strong> {{ selectedOrder.createdAt | date}}</p>
         <p><strong>Updated At:</strong> {{ selectedOrder.updatedAt | date}}</p>
@@ -75,5 +94,44 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #trackingModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Add Tracking Details</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body" *ngIf="selectedOrder">
+        <p><strong>Order Number:</strong> {{ selectedOrder.orderNumber }}</p>
+        <div class="mb-3">
+            <label for="tracking" class="form-label">Tracking Details</label>
+            <input type="text" id="tracking" class="form-control" [(ngModel)]="trackingInput"
+                placeholder="Tracking details">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="addTrackingDetails(trackingInput)">Add</button>
+    </div>
+</ng-template>
+
+<ng-template #statusModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Update Order Status</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body" *ngIf="selectedOrder">
+        <p><strong>Order Number:</strong> {{ selectedOrder.orderNumber }}</p>
+        <div class="mb-3">
+            <label for="status" class="form-label">Select Status</label>
+            <select id="status" class="form-select" [(ngModel)]="selectedOrder.status">
+                <option *ngFor="let s of statuses" [value]="s">{{ s | titlecase }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="updateStatus(selectedOrder)">Update</button>
     </div>
 </ng-template>

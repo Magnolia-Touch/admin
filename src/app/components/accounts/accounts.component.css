@@ -137,6 +137,34 @@
     text-align: center;
 }
 
+.status-toggle button {
+  border: none;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-active {
+  background: #28a745;
+  color: white;
+}
+
+.btn-active:hover {
+  background: #218838;
+}
+
+.btn-inactive {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-inactive:hover {
+  background: #c82333;
+}
+
 .view-btn button {
     background: #f8f9fc;
     border: 1px solid #b0c4de;
