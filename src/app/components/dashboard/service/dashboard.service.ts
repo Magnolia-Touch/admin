@@ -9,6 +9,8 @@ export class DashboardService {
 
   private CountUrl = `${environment.apiUrl}/memories/counts`
   private RevenueUrl = `${environment.apiUrl}/revenue`
+  private bookingUrl = `${environment.apiUrl}/booking`
+  private orderUrl = `${environment.apiUrl}/orders`
 
   constructor(
     private http: HttpClient
@@ -24,6 +26,22 @@ export class DashboardService {
       params += `&startDate=${startDate}&endDate=${endDate}`;
     }
     return this.http.get(`${this.RevenueUrl}${params}`);
+  }
+
+  getCleaningServiceToday() {
+    const limit = 5;
+    const page = 1;
+    const today = new Date().toISOString().split('T')[0];
+
+    return this.http.get(`${this.bookingUrl}/service-bookings?dateQuery=${today}&page=${page}&limit=${limit}`)
+  }
+
+    getOrdersToday() {
+    const limit = 5;
+    const page = 1;
+    const today = new Date().toISOString().split('T')[0];
+
+    return this.http.get(`${this.orderUrl}/memorial-orders?createdDate=${today}&page=${page}&limit=${limit}`)
   }
 
 }

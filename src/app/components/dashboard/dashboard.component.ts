@@ -4,12 +4,13 @@ import { DashboardService } from './service/dashboard.service';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, NgbDatepickerModule, FormsModule],
+  imports: [CommonModule, NgbDatepickerModule, FormsModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -20,6 +21,8 @@ export class DashboardComponent implements OnInit {
   chart!: Chart;
   loadingCounts: boolean = true;
   loadingRevenue: boolean = true;
+  cleaningBookings: any[] = [];
+  loadingBookings = true;
 
   startDate!: NgbDateStruct;
   endDate!: NgbDateStruct;
@@ -33,6 +36,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadCounts()
     this.loadRevenue();
+    this.loadTodayBookings();
   }
 
   loadCounts() {
@@ -70,6 +74,20 @@ export class DashboardComponent implements OnInit {
       error: (err) => {
         console.error('Error loading revenue:', err)
         this.loadingRevenue = false;
+      }
+    });
+  }
+
+  loadTodayBookings() {
+    this.loadingBookings = true;
+    this.service.getCleaningServiceToday().subscribe({
+      next: (res: any) => {
+        this.cleaningBookings = res.data || res;
+        this.loadingBookings = false;
+      },
+      error: (err) => {
+        console.error('Error loading today’s bookings:', err);
+        this.loadingBookings = false;
       }
     });
   }

@@ -82,4 +82,39 @@
         </div>
         <canvas id="revenueChart"></canvas>
     </div>
-</div>
+
+    <div class="subscription-list">
+        <h3 class="title">Cleaning Services Today</h3>
+
+        <div *ngIf="!loadingBookings && cleaningBookings.length === 0" class="no-results">
+            No services today.
+        </div>
+
+        <div *ngIf="loadingBookings" class="text-center my-3">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div *ngIf="!loadingBookings">
+            <div class="subscription-card" *ngFor="let service of cleaningBookings">
+                <div class="customer-info">
+                    <strong>{{ service.booking_ids }}</strong>
+                    <small>Status: {{ service.status }}</small>
+                </div>
+                <div class="service-type">
+                    Subscription: {{ service.subscription.Subscription_name }}
+                </div>
+                <div class="service-date">
+                    First Cleaning: {{ service.first_cleaning_date | date:'dd/MM/yyyy' }}
+                </div>
+                <div class="service-date">
+                    Created: {{ service.createdAt | date:'dd/MM/yyyy' }}
+                </div>
+            </div>
+        </div>
+
+        <div class="view-btn">
+            <button class="view-btn" routerLink="/cleaning">View More</button>
+        </div>
+    </div>
