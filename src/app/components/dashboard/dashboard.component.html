@@ -100,7 +100,11 @@
             <div class="subscription-card" *ngFor="let service of cleaningBookings">
                 <div class="customer-info">
                     <strong>{{ service.booking_ids }}</strong>
-                    <small>Status: {{ service.status }}</small>
+                    <small>Status:
+                        <span [ngClass]="statusClassBook(service.status)">
+                            {{ service.status | titlecase }}
+                        </span>
+                    </small>
                 </div>
                 <div class="service-type">
                     Subscription: {{ service.subscription.Subscription_name }}
@@ -118,3 +122,49 @@
             <button class="view-btn" routerLink="/cleaning">View More</button>
         </div>
     </div>
+
+    <div class="subscription-list">
+        <h3 class="title">Orders Today</h3>
+
+        <div *ngIf="!loadingOrders && orders.length === 0" class="no-results">
+            No orders today.
+        </div>
+
+        <div *ngIf="loadingOrders" class="text-center my-3">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div *ngIf="!loadingOrders">
+            <div class="subscription-card" *ngFor="let order of orders">
+                <div class="customer-info">
+                    <strong>{{ order.orderNumber }}</strong>
+                    <small>Status:
+                        <span [ngClass]="statusClass(order.status)">
+                            {{ order.status | titlecase }}
+                        </span>
+                    </small>
+                </div>
+
+                <div class="service-type">
+                    <span>Total: ₹{{ order.totalAmount }}</span>
+                </div>
+
+                <div class="service-date">
+                    {{ order.createdAt | date}}
+                </div>
+
+                <div class="service-type">
+                    <span [ngClass]="order.is_paid ? 'text-success' : 'text-danger'">
+                        {{ order.is_paid ? 'Paid' : 'Not Paid' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-btn">
+            <button class="view-btn" routerLink="/orders">View More</button>
+        </div>
+    </div>
+</div>

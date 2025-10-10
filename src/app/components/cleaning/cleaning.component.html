@@ -41,7 +41,11 @@
         <div class="subscription-card" *ngFor="let service of services">
             <div class="customer-info">
                 <strong>{{ service.booking_ids }}</strong>
-                <small>Status: {{ service.status }}</small>
+                <small>Status:
+                    <span [ngClass]="statusClassBook(service.status)">
+                        {{ service.status | titlecase }}
+                    </span>
+                </small>
             </div>
             <div class="service-type">
                 Subscription: {{ service.subscription.Subscription_name }}

@@ -23,6 +23,8 @@ export class DashboardComponent implements OnInit {
   loadingRevenue: boolean = true;
   cleaningBookings: any[] = [];
   loadingBookings = true;
+  orders: any[] = [];
+  loadingOrders = true;
 
   startDate!: NgbDateStruct;
   endDate!: NgbDateStruct;
@@ -37,6 +39,7 @@ export class DashboardComponent implements OnInit {
     this.loadCounts()
     this.loadRevenue();
     this.loadTodayBookings();
+    this.loadTodayOrders();
   }
 
   loadCounts() {
@@ -90,6 +93,43 @@ export class DashboardComponent implements OnInit {
         this.loadingBookings = false;
       }
     });
+  }
+
+  loadTodayOrders() {
+    this.loadingBookings = true;
+    this.service.getOrdersToday().subscribe({
+      next: (res: any) => {
+        this.orders = res.data || res;
+        this.loadingOrders = false;
+      },
+      error: (err) => {
+        console.error('Error loading today’s bookings:', err);
+        this.loadingOrders = false;
+      }
+    });
+  }
+
+  statusClass(status: string) {
+    switch (status.toLowerCase()) {
+      case 'pending': return 'text-warning';
+      case 'processing': return 'text-primary';
+      case 'shipped': return 'text-info';
+      case 'delivered': return 'text-success';
+      case 'cancelled': return 'text-danger';
+      case 'refunded': return 'text-muted';
+      default: return '';
+    }
+  }
+
+  statusClassBook(status: string = '') {
+    const normalized = status?.trim().toLowerCase();
+    const map: Record<string, string> = {
+      pending: 'text-warning',
+      in_progress: 'text-primary',
+      completed: 'text-success',
+      cancelled: 'text-danger'
+    };
+    return map[normalized] || '';
   }
 
   renderChart() {

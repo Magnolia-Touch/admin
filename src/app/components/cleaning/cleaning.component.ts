@@ -151,6 +151,17 @@ export class CleaningComponent implements OnInit {
     });
   }
 
+  statusClassBook(status: string = '') {
+    const normalized = status?.trim().toLowerCase();
+    const map: Record<string, string> = {
+      pending: 'text-warning',
+      in_progress: 'text-primary',
+      completed: 'text-success',
+      cancelled: 'text-danger'
+    };
+    return map[normalized] || '';
+  }
+
   private formatDate(date: any): string {
     if (!date) return '';
     if (date.year && date.month && date.day) {
