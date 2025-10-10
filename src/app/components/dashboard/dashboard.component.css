@@ -96,13 +96,13 @@
     width: 100%;
     max-width: 900px;
     margin: auto;
+    margin-bottom: 5rem;
 }
 
 .subscription-list {
     padding: 1rem;
     background: #f8f9fc;
     width: 100%;
-    min-height: 90vh;
 }
 
 .title {

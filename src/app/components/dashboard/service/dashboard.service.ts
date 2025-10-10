@@ -33,7 +33,7 @@ export class DashboardService {
     const page = 1;
     const today = new Date().toISOString().split('T')[0];
 
-    return this.http.get(`${this.bookingUrl}/service-bookings?page=${page}&limit=${limit}`)
+    return this.http.get(`${this.bookingUrl}/service-bookings?dateQuery=${today}&page=${page}&limit=${limit}`)
   }
 
     getOrdersToday() {
@@ -41,7 +41,7 @@ export class DashboardService {
     const page = 1;
     const today = new Date().toISOString().split('T')[0];
 
-    return this.http.get(`${this.orderUrl}/memorial-orders?page=${page}&limit=${limit}`)
+    return this.http.get(`${this.orderUrl}/memorial-orders?createdDate=${today}&page=${page}&limit=${limit}`)
   }
 
 }
